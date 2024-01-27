@@ -1,9 +1,12 @@
 package asia.lhweb.skyassault;
 
-import asia.lhweb.skyassault.entry.GameHall;
+
+import asia.lhweb.skyassault.Util.UIUtils;
+import asia.lhweb.skyassault.controller.PlaneController;
 
 public class SkyAssaultMain {
     public static void main(String[] args) {
-        GameHall.Run();
+        UIUtils.InitUI();
+        new PlaneController();
     }
 }

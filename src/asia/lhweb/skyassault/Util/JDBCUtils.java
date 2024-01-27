@@ -12,7 +12,7 @@ import java.sql.*;
 public class JDBCUtils {
 	private static final String USER = "root";
 	private static final String PWD = "root";
-	private static final String URL = "jdbc:mysql://127.0.0.1:3306/gamehall?useUnicode=true&characterEncoding=UTF-8";
+	private static final String URL = "jdbc:mysql://127.0.0.1:3306/oto231210skyassault?useUnicode=true&characterEncoding=UTF-8";
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 
 	public static void main(String[] args) throws SQLException {
