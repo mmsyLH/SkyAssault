@@ -18,9 +18,10 @@ import java.awt.*;
         flyY = y;
         flyH = 40;
         flyW = 40;
-        flyType = 4; // 假设4代表核弹奖励
+        flySpeed=GameConstant.FLY_DEFAULT_SPEED;
+        flyType = 4;
         flyName = "核弹";
-        flyImage = ImageUtils.getNuclearBombImage(); // 使用合适的图片
+        flyImage = ImageUtils.getNuclearBombImage();
     }
 
     @Override
@@ -41,6 +42,6 @@ import java.awt.*;
             movingRight = !movingRight;
 
         }
-        flyY += 20;
+        flyY += flySpeed;
     }
 }

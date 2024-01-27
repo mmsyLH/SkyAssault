@@ -11,7 +11,9 @@ import java.awt.*;
  * @date 2024/01/26
  */
 public class HeroPlane extends FlyingObj{
+    private int health; // 生命值属性
     public HeroPlane() {
+        health=3;
         flyX = 100;
         flyY = 100;
         flyH=100;
@@ -37,4 +39,11 @@ public class HeroPlane extends FlyingObj{
 
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }

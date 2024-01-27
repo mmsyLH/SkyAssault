@@ -23,6 +23,10 @@ public interface GameConstant {
      * 游戏窗口左侧宽度
      */
     int GAME_WINDOW_LEFT_WIDTH = 750;
+    int GAME_WINDOW_LEFT_HEIGHT = 680;
+    /**
+     * 游戏窗口右宽度
+     */
     int GAME_WINDOW_RIGHT_WIDTH = 250;
     /**
      * hero1
@@ -56,4 +60,34 @@ public interface GameConstant {
      * 子弹高度
      */
     int ZIDAN_H=10;
+
+    int ZIDAN_SPEED=7;
+    ///////////////////////////////////////////////////////////////飞行物类别
+    int FLY_DEFAULT_SPEED=3;
+
+
+    /**
+     * 默认boom1
+     */////////////////////////////////////////////////////////////////爆炸类
+    String DEFAULT_BOOM1="images/boom/blast_0_1.png";
+    /**
+     * 默认boom2
+     */
+    String DEFAULT_BOOM2="images/boom/blast_0_2.png";
+    /**
+     * 默认boom3
+     */
+    String DEFAULT_BOOM3="images/boom/blast_0_3.png";
+    /**
+     * 默认boom4
+     */
+    String DEFAULT_BOOM4="images/boom/blast_0_4.png";
+    /**
+     * 默认boom5
+     */
+    String DEFAULT_BOOM5="images/boom/blast_0_5.png";
+    /**
+     * 子弹打到敌机的爆炸
+     */
+    int ZIDANTO_ENEMYPLANE=0;
 }

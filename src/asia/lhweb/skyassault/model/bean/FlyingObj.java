@@ -15,8 +15,18 @@ public abstract class FlyingObj {
     protected int flySpeed;
     protected String flyName;
     protected Image flyImage;
+    private boolean isHit=false;//判断是否击中
+    public boolean isHit() {
+        return isHit;
+    }
 
-    public abstract void drawFlayer(Graphics g);
+    public void setHit(boolean hit) {
+        isHit = hit;
+    }
+
+    public void drawFlayer(Graphics g) {
+        g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
+    }
     public abstract void move();
 
     public int getFlySpeed() {
@@ -72,5 +82,9 @@ public abstract class FlyingObj {
 
     public void setFlyImage(Image flyImage) {
         this.flyImage = flyImage;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(flyX, flyY, flyW, flyH);
     }
 }

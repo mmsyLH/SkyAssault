@@ -10,7 +10,7 @@ import java.awt.*;
  *
  * @author 罗汉
  * @date 2024/01/26
- */// 双倍火力奖励和核弹奖励的装饰器类可以按照上述方式实现
+ */
 // DoubleFirePower奖励类
 public class DoubleFirePower extends FlyingObj {
     private boolean movingRight = true; // 标记Z字形移动方向
@@ -19,7 +19,8 @@ public class DoubleFirePower extends FlyingObj {
         flyY = y;
         flyH = 40;
         flyW = 40;
-        flyType = 3; // 假设3代表双倍火力奖励
+        flyType = 3;
+        flySpeed=GameConstant.FLY_DEFAULT_SPEED;
         flyName = "双倍奖励";
         flyImage = ImageUtils.getDoubleFirePowerImage(); // 使用合适的图片
     }
@@ -40,8 +41,7 @@ public class DoubleFirePower extends FlyingObj {
         if (flyX <= 0 || flyX >= (GameConstant.GAME_WINDOW_LEFT_WIDTH - flyW)) {
             // 如果触边，改变方向，并向下移动
             movingRight = !movingRight;
-
         }
-        flyY += 20;
+        flyY += flySpeed;
     }
 }

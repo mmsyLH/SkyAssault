@@ -31,7 +31,6 @@ public class GameMenuActionListener implements ActionListener {
                 // 处理暂停游戏的事件
                 planeController.pauseGame();
                 break;
-            // 添加其他菜单项的处理逻辑，如果有的话
         }
     }
 }

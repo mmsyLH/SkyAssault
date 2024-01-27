@@ -18,6 +18,7 @@ public class Bee extends FlyingObj {
         flyY = y;
         flyH = 60;
         flyW = 60;
+        flySpeed=GameConstant.FLY_DEFAULT_SPEED;
         flyType = 2; // 使用一个区分小蜜蜂的类型
         flyName = "Bee";
         flyImage = ImageUtils.getBeeImage1(); // 使用合适的小蜜蜂图片
@@ -40,6 +41,6 @@ public class Bee extends FlyingObj {
             // 如果触边，改变方向，并向下移动
             movingRight = !movingRight;
         }
-        flyY += 20;
+        flyY += flySpeed;
     }
 }

@@ -29,7 +29,6 @@ public class MyPlaneMotionListener implements MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
 
     }
-
     @Override
     public void mouseMoved(MouseEvent e) {
         if (planeController.isAllowMovement()) {
