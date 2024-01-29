@@ -1,6 +1,7 @@
 package asia.lhweb.skyassault.View;
 
-import asia.lhweb.skyassault.controller.Listener.ActionListener;
+
+import asia.lhweb.skyassault.constant.GameConstant;
 import asia.lhweb.skyassault.controller.Listener.GameMenuActionListener;
 import asia.lhweb.skyassault.controller.PlaneController;
 
@@ -15,19 +16,19 @@ public class GameMenu extends JMenuBar {
     public GameMenu(PlaneController planeController) {
         GameMenuActionListener gameMenuActionListener = new GameMenuActionListener(planeController);
 
-        JMenu jMenu = new JMenu("菜单");
-        JMenuItem startItem = new JMenuItem("开始游戏");
-        startItem.setActionCommand("start");
+        JMenu jMenu = new JMenu(GameConstant.MENU_NAME);
+        JMenuItem startItem = new JMenuItem(GameConstant.MENU_START);
+        startItem.setActionCommand(GameConstant.GAME_START);
         startItem.addActionListener(gameMenuActionListener);
         jMenu.add(startItem);
 
-        JMenuItem pauseItem = new JMenuItem("暂停游戏");
-        pauseItem.setActionCommand("pause");
+        JMenuItem pauseItem = new JMenuItem(GameConstant.MENU_PAUSE);
+        pauseItem.setActionCommand(GameConstant.GAME_PAUSE);
         pauseItem.addActionListener(gameMenuActionListener);
         jMenu.add(pauseItem);
 
-        JMenuItem endItem = new JMenuItem("结束游戏");
-        endItem.setActionCommand("end");
+        JMenuItem endItem = new JMenuItem(GameConstant.MENU_END);
+        endItem.setActionCommand(GameConstant.GAME_END);
         endItem.addActionListener(gameMenuActionListener);
         jMenu.add(endItem);
 

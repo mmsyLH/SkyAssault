@@ -9,7 +9,20 @@ public interface GameConstant {
      * 游戏名称
      */
     String SKY_ASSAULT_NAME="雷霆战机";
+    /**
+     * 游戏bg1
+     */
     String GAME_BG1="images/bg/bg_0.jpg";
+    ////////菜单类
+    String GAME_START="start";
+    String GAME_END="end";
+    String GAME_PAUSE="pause";
+    String MENU_NAME="菜单";
+    String MENU_START="开始游戏";
+    String MENU_END="结束游戏";
+    String MENU_PAUSE="暂停游戏";
+
+    ///////
     /**
      * 游戏窗口总宽度
      */
@@ -64,6 +77,7 @@ public interface GameConstant {
     int ZIDAN_SPEED=7;
     ///////////////////////////////////////////////////////////////飞行物类别
     int FLY_DEFAULT_SPEED=3;
+    int DEFAULE_W=50;
 
 
     /**

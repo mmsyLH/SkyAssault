@@ -1,7 +1,9 @@
 package asia.lhweb.skyassault.service;
 
 
+import asia.lhweb.skyassault.common.ErrorCode;
 import asia.lhweb.skyassault.dao.UserDao;
+import asia.lhweb.skyassault.exception.BusinessException;
 import asia.lhweb.skyassault.model.bean.Player;
 
 public class UserService {
@@ -30,6 +32,16 @@ public class UserService {
             return userDao.add(player) != -1;
         }
         return false;
+    }
+    public void register2(Player player) {
+        boolean exists = isExists(player.getUsername());
+        if (!exists) {
+            try {
+                throw new BusinessException(ErrorCode.PARAMS_ERROR,"注册失败");
+            } catch (BusinessException e) {
+                //调用swing弹窗
+            }
+        }
     }
 
     public Player login(Player loginUser) {

@@ -16,6 +16,7 @@ public abstract class FlyingObj {
     protected String flyName;
     protected Image flyImage;
     private boolean isHit=false;//判断是否击中
+    private Rectangle rectangle;
     public boolean isHit() {
         return isHit;
     }
@@ -85,6 +86,7 @@ public abstract class FlyingObj {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(flyX, flyY, flyW, flyH);
+        rectangle=new Rectangle(flyX, flyY, flyW, flyH);
+        return rectangle;
     }
 }

@@ -22,7 +22,6 @@ public class FlyObjTime {
     private int bulletCounter = 0;// 计时器
     private int bulletDelay = 4; // 控制子弹发射速度的延迟
     private List<FlyingObj> flyingObjs;
-    private List<FlyingObj> boomObjects; // 存储爆炸效果
     private List<Bullet> enemyPlaneRemoveBullets;
     private List<Bullet> enemyPlaneBullets;
     private List<Bullet> myPlaneRemoveBullets;
@@ -40,8 +39,6 @@ public class FlyObjTime {
             // 得到子弹集合列表
             getBulletsList();
 
-            //得到爆炸列表
-            boomObjects=planeController.getBoomObjects();
 
             // 计数器递增
             bulletCounter++;
@@ -58,8 +55,8 @@ public class FlyObjTime {
 
 
             if (bulletCounter % bulletDelay == 0) {
-                // 玩家飞机发射子弹
-                myPlaneBullets.add(new Bullet(planeController.getPlayer().getHeroPlane().getFlyX(), planeController.getPlayer().getHeroPlane().getFlyY()));
+                //我方飞机开火
+                planeController.myPlaneFire();
             }
             if (bulletCounter % (5 * bulletDelay) == 0) {
                 // 敌机飞机发射子弹
@@ -67,7 +64,7 @@ public class FlyObjTime {
                 for (FlyingObj flyingObj : flyingObjs) {
                     if (flyingObj instanceof EnemyPlane) {
                         EnemyPlane enemyPlane = (EnemyPlane) flyingObj;
-                        bullet = new Bullet(enemyPlane.getFlyX(), enemyPlane.getFlyY());
+                        bullet = new Bullet(enemyPlane.getFlyX()+enemyPlane.getFlyW()/2+GameConstant.ZIDAN_W/2, enemyPlane.getFlyY()+enemyPlane.getFlyH());
                         bullet.setFlyType(2);
                         enemyPlaneBullets.add(bullet);
                     }

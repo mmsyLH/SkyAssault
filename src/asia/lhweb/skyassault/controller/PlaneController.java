@@ -102,10 +102,8 @@ public class PlaneController{
 
         for (int i = 0; i < 20; i++) {
             random = Math.random();
-
             // 计算y轴偏移量
             int yOffset = (i == 0) ? 0 : -i * 150; // 这里的50可以根据实际情况调整
-
             if (random < 0.7) {
                 // 70%的概率生成敌机
                 flyingObj = EnemyPlaneFactory.createEnemyPlane(getRandomX(), yOffset);
@@ -123,12 +121,18 @@ public class PlaneController{
         }
     }
 
+    /**
+     *  玩家飞机发射子弹
+     */
+    public void myPlaneFire() {
+        myPlaneBullets.add(new Bullet(player.getHeroPlane().getFlyX()+player.getHeroPlane().getFlyW()/2-GameConstant.ZIDAN_W/2, player.getHeroPlane().getFlyY()));
+    }
 
     /**
      * 获取随机的 X 坐标
      */
     private int getRandomX() {
-        int x = (int) (Math.random() * GameConstant.GAME_WINDOW_LEFT_WIDTH);
+        int x = (int) (Math.random() * (GameConstant.GAME_WINDOW_LEFT_WIDTH-GameConstant.DEFAULE_W));
         return x;
     }
     /**
@@ -148,7 +152,7 @@ public class PlaneController{
                     EnemyPlane enemyPlane = (EnemyPlane) flyingObj;
                     Rectangle enemyBounds = enemyPlane.getBounds();
                     if (bulletBounds.intersects(enemyBounds)) {
-                        System.out.println("敌机被击中！");
+                        // System.out.println("敌机被击中！");
                         //设置子弹击中爆炸效果
                         BoomUtils explosion = new BoomUtils(enemyPlane.getFlyX(), enemyPlane.getFlyY(), GameConstant.ZIDANTO_ENEMYPLANE);
                         boomObjects.add(explosion);
@@ -157,10 +161,9 @@ public class PlaneController{
                         int currentHealth = enemyPlane.getHealth();
                         enemyPlane.setHealth(currentHealth - 1);
 
-
                         // 处理敌机被击中的逻辑
                         if (currentHealth - 1 <= 0) {
-                            System.out.println("敌机已被击毁");
+                            // System.out.println("敌机已被击毁");
                             enemyIterator.remove(); // 移除敌机
                         }
                         myBulletIterator.remove(); // 移除我方飞机的子弹
@@ -192,7 +195,6 @@ public class PlaneController{
                 if (currentHealth - 1 <= 0) {
                     System.out.println("游戏结束！");
                 }
-
                 iterator.remove(); // 移除子弹
                 return true;
             }
@@ -200,6 +202,18 @@ public class PlaneController{
         return false;
     }
 
+    /**
+     * 检查我子弹击中敌人子弹
+     *
+     * @return boolean
+     */
+    public boolean checkMyBulletHitEnemyBullet(){
+        Iterator<Bullet> iterator = myPlaneBullets.iterator();
+        while (iterator.hasNext()) {
+            Bullet myBullet = iterator.next();
+        }
+        return false;
+    }
     /**
      * 检查我飞机碰撞
      *

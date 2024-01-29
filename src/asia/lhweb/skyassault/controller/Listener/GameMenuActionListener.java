@@ -1,5 +1,6 @@
 package asia.lhweb.skyassault.controller.Listener;
 
+import asia.lhweb.skyassault.constant.GameConstant;
 import asia.lhweb.skyassault.controller.PlaneController;
 
 import java.awt.event.ActionEvent;
@@ -16,18 +17,15 @@ public class GameMenuActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "start":
-                System.out.println("start");
+            case GameConstant.GAME_START:
                 // 处理开始游戏的事件
                 planeController.startGame();
                 break;
-            case "end":
-                System.out.println("end");
+            case GameConstant.GAME_END:
                 // 处理结束游戏的事件
                 planeController.endGame();
                 break;
-            case "pause":
-                System.out.println("pause");
+            case GameConstant.GAME_PAUSE:
                 // 处理暂停游戏的事件
                 planeController.pauseGame();
                 break;

@@ -37,10 +37,9 @@ public class EnemyPlane extends FlyingObj {
             flyX -= flySpeed; // 向左移动
         }
 
-        if (flyX <= 0 || flyX >= (GameConstant.GAME_WINDOW_LEFT_WIDTH - flyW)) {
+        if (flyX <= 0 || flyX >= (GameConstant.GAME_WINDOW_LEFT_WIDTH-flyW)) {
             // 如果触边，改变方向，并向下移动
             movingRight = !movingRight;
-
         }
         flyY += flySpeed;
     }

@@ -1,7 +1,6 @@
 package asia.lhweb.skyassault.common;
 
 /**
- * 错误代码
  * 错误码
  *
  * @author 罗汉
@@ -9,11 +8,13 @@ package asia.lhweb.skyassault.common;
  */
 public enum ErrorCode {
     SUCCESS(200, "ok", ""),
-    PARAMS_ERROR(40000, "输入参数错误", ""),
-    NULL_ERROR(40001, "请求数据为空", ""),
-    NOT_LOGIN(40100, "未登录", ""),
-    NO_AUTH(40101, "无权限", ""),
-    SYSTEM_ERROR(50000, "系统内部异常", "");
+    SUCCESS_START(201, "游戏类", ""),
+    SUCCESS_STOP(202, "游戏类", ""),
+    //例如玩家飞机被击毁了 是否复活
+    //登录成功，弹个弹窗
+    //是否重新开始游戏
+    PARAMS_ERROR(300, "输入参数错误", ""),
+    SYSTEM_ERROR(500, "系统内部异常", "");
 
     private final int code;
 
@@ -23,10 +24,9 @@ public enum ErrorCode {
     private final String message;
 
     /**
-     * 状态码描述（详情）
+     * 状态码描述（详情） 用来显示具体信息
      */
     private final String description;
-
 
     ErrorCode(int code, String message, String description) {
         this.code = code;
