@@ -1,6 +1,4 @@
 package asia.lhweb.skyassault.model.bean;
-
-
 public class User {
     private String username;
     private String password;

@@ -1,4 +1,5 @@
 package asia.lhweb.skyassault.controller.time;
+
 import asia.lhweb.skyassault.Util.BoomUtils;
 import asia.lhweb.skyassault.constant.GameConstant;
 import asia.lhweb.skyassault.controller.PlaneController;
@@ -22,9 +23,9 @@ public class FlyObjTime {
     private int bulletCounter = 0;// 计时器
     private int bulletDelay = 4; // 控制子弹发射速度的延迟
     private List<FlyingObj> flyingObjs;
-    private List<Bullet> enemyPlaneRemoveBullets;
+    private List<HeroPlane> heroPlaneList;
     private List<Bullet> enemyPlaneBullets;
-    private List<Bullet> myPlaneRemoveBullets;
+    private List<Bullet> cleanList;
     private List<Bullet> myPlaneBullets;
 
     public FlyObjTime(PlaneController planeController) {
@@ -39,7 +40,6 @@ public class FlyObjTime {
             // 得到子弹集合列表
             getBulletsList();
 
-
             // 计数器递增
             bulletCounter++;
 
@@ -49,13 +49,14 @@ public class FlyObjTime {
                 flyingObj.move();
             }
 
+
             // 设置玩家飞机的喷火效果切换
             myPlaneIndex = (myPlaneIndex + 1) % 2;
-            planeController.getPlayer().getHeroPlane().setFlyType((myPlaneIndex == 0) ? 1 : 2);
+            heroPlaneList.get(0).setFlyType((myPlaneIndex == 0) ? 1 : 2);
 
 
             if (bulletCounter % bulletDelay == 0) {
-                //我方飞机开火
+                // 我方飞机开火
                 planeController.myPlaneFire();
             }
             if (bulletCounter % (5 * bulletDelay) == 0) {
@@ -64,7 +65,7 @@ public class FlyObjTime {
                 for (FlyingObj flyingObj : flyingObjs) {
                     if (flyingObj instanceof EnemyPlane) {
                         EnemyPlane enemyPlane = (EnemyPlane) flyingObj;
-                        bullet = new Bullet(enemyPlane.getFlyX()+enemyPlane.getFlyW()/2+GameConstant.ZIDAN_W/2, enemyPlane.getFlyY()+enemyPlane.getFlyH());
+                        bullet = new Bullet(enemyPlane.getFlyX() + enemyPlane.getFlyW() / 2 + GameConstant.ZIDAN_W / 2, enemyPlane.getFlyY() + enemyPlane.getFlyH());
                         bullet.setFlyType(2);
                         enemyPlaneBullets.add(bullet);
                     }
@@ -73,7 +74,7 @@ public class FlyObjTime {
 
             // 检查我方飞机是否被击中
             if (planeController.checkMyPlaneHit()) {
-                System.out.println("我方飞机被击中！");
+
             }
 
             // 检查敌机是否被击中
@@ -85,28 +86,34 @@ public class FlyObjTime {
 
             }
 
+            // 检查我方子弹与地方子弹的碰撞
+            if (planeController.checkMyBulletHitEnemyBullet()) {
+
+            }
+
+
             // 移动玩家飞机的子弹
             for (Bullet myPlaneBullet : myPlaneBullets) {
                 myPlaneBullet.move();
                 if (myPlaneBullet.isOutOfBound()) {
-                    myPlaneRemoveBullets.add(myPlaneBullet);
+                    cleanList.add(myPlaneBullet);
                 }
             }
             // 移动敌机飞机的子弹
             for (Bullet enemyPlaneBullet : enemyPlaneBullets) {
                 enemyPlaneBullet.move();
                 if (enemyPlaneBullet.isOutOfBound()) {
-                    enemyPlaneRemoveBullets.add(enemyPlaneBullet);
+                    cleanList.add(enemyPlaneBullet);
                 }
             }
+
+
             // 删除越界的子弹
-            myPlaneBullets.removeAll(myPlaneRemoveBullets);
-            enemyPlaneBullets.removeAll(enemyPlaneRemoveBullets);
-            myPlaneRemoveBullets.clear();
-            enemyPlaneRemoveBullets.clear();
+            myPlaneBullets.removeAll(cleanList);
+            enemyPlaneBullets.removeAll(cleanList);
+            cleanList.clear();
 
 
-            planeController.getUi().getGameJFrame().repaint();// 刷新页面
         }
     };
 
@@ -115,9 +122,9 @@ public class FlyObjTime {
      */
     private void getBulletsList() {
         myPlaneBullets = planeController.getMyPlaneBullets();
-        myPlaneRemoveBullets = planeController.getMyPlaneRemoveBullets();
+        cleanList = planeController.getCleanList();
         enemyPlaneBullets = planeController.getEnemyPlaneBullets();
-        enemyPlaneRemoveBullets = planeController.getEnemyPlaneRemoveBullets();
+        heroPlaneList=planeController.getHeroPlaneList();
     }
 
 
@@ -148,14 +155,6 @@ public class FlyObjTime {
     public void resumeTimer() {
         bgTimer.start();
     }
-
-
-
-
-
-
-
-
 
 
     public int getDelay() {

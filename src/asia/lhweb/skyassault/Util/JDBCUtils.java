@@ -21,6 +21,7 @@ public class JDBCUtils {
 	}
 	/**
 	 * 驱动的注册
+	 *
 	 */
 	static {
 		try {

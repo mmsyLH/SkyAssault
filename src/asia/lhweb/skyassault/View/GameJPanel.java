@@ -1,10 +1,10 @@
 package asia.lhweb.skyassault.View;
 
 import asia.lhweb.skyassault.Util.BoomUtils;
+import asia.lhweb.skyassault.Util.DataUtils;
 import asia.lhweb.skyassault.controller.Listener.MyPlaneListener;
 import asia.lhweb.skyassault.controller.Listener.MyPlaneMotionListener;
 import asia.lhweb.skyassault.controller.PlaneController;
-import asia.lhweb.skyassault.model.bean.Bullet;
 import asia.lhweb.skyassault.model.bean.FlyingObj;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ import java.util.Iterator;
  * @date 2024/01/25
  */
 public class GameJPanel extends JPanel {
-    private PlaneController planeController;
+    private final PlaneController planeController;
     private  MyPlaneListener myMouseListener;
     private  MyPlaneMotionListener myMouseMotionListener;
     public GameJPanel(PlaneController planeController) {
@@ -29,18 +29,16 @@ public class GameJPanel extends JPanel {
     public void paintComponent(Graphics g) {
         planeController.getBackGround1().drawBackGround(g);
         planeController.getBackGround2().drawBackGround(g);
-        planeController.getPlayer().getHeroPlane().drawFlayer(g);
+        (planeController.getPlayer().getHeroPlaneList()).get(0).drawFlayer(g);
 
         // 遍历敌机集合调用绘制方法
-        for (FlyingObj flyingObj : planeController.getFlyingObjects()) {
-            flyingObj.drawFlayer(g);
-        }
+        DataUtils.drawObjects(g, planeController.getFlyingObjects());
 
         // 遍历英雄机子弹集合调用绘制方法
-        drawBullets(g, planeController.getMyPlaneBullets());
+        DataUtils.drawObjects(g, planeController.getMyPlaneBullets());
 
         // 遍历敌机子弹集合调用绘制方法
-        drawBullets(g, planeController.getEnemyPlaneBullets());
+        DataUtils.drawObjects(g, planeController.getEnemyPlaneBullets());
 
         //绘制爆炸效果
         for (Iterator<FlyingObj> iterator = planeController.getBoomObjects().iterator(); iterator.hasNext();) {
@@ -48,21 +46,11 @@ public class GameJPanel extends JPanel {
             if (flyingObj instanceof BoomUtils) {
                 BoomUtils explosion = (BoomUtils) flyingObj;
                 if (!explosion.explosive()) {
-                    // System.out.println("移除了爆炸效果");
                     iterator.remove(); // 移除爆炸效果
                 } else {
-                    // System.out.println("绘制了爆炸效果");
                     explosion.drawFlayer(g); // 绘制爆炸效果
                 }
             }
-        }
-    }
-    /**
-     * 绘制子弹集合
-     */
-    private void drawBullets(Graphics g, java.util.List<Bullet> bullets) {
-        for (Bullet bullet : bullets) {
-            bullet.drawFlayer(g);
         }
     }
     /**

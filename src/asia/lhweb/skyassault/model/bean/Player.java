@@ -1,6 +1,9 @@
 package asia.lhweb.skyassault.model.bean;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 玩家类
  *
@@ -10,11 +13,12 @@ package asia.lhweb.skyassault.model.bean;
 public class Player extends User {
     private String playerName;
     private int playerScore;
-    private HeroPlane heroPlane;
+    private List<HeroPlane> heroPlaneList=new ArrayList<>();
 
 
     public Player() {
-        heroPlane=new HeroPlane();
+        heroPlaneList.add(new HeroPlane());
+        heroPlaneList.add(new HeroPlane());
     }
 
     public String getPlayerName() {
@@ -33,11 +37,11 @@ public class Player extends User {
         this.playerScore = playerScore;
     }
 
-    public HeroPlane getHeroPlane() {
-        return heroPlane;
+    public List<HeroPlane> getHeroPlaneList() {
+        return heroPlaneList;
     }
 
-    public void setHeroPlane(HeroPlane heroPlane) {
-        this.heroPlane = heroPlane;
+    public void setHeroPlaneList(List<HeroPlane> heroPlaneList) {
+        this.heroPlaneList = heroPlaneList;
     }
 }

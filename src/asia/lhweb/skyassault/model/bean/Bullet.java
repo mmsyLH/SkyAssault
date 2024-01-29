@@ -23,12 +23,14 @@ public class Bullet extends FlyingObj{
         flySpeed=GameConstant.ZIDAN_SPEED;
         flyImage= ImageUtils.getBeeImage1();
     }
+
     /**
      * 检查子弹是否越界
      */
     public boolean isOutOfBound() {
         return flyY < 0 || flyY > GameConstant.GAME_WINDOW_HEIGHT;
     }
+
     @Override
     public void drawFlayer(Graphics g) {
         g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
@@ -42,5 +44,4 @@ public class Bullet extends FlyingObj{
             flyY+=GameConstant.FLY_DEFAULT_SPEED+flySpeed;
         }
     }
-
 }

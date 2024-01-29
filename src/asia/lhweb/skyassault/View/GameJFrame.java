@@ -29,7 +29,7 @@ public class GameJFrame extends JFrame {
 
         //左侧主布局
         gameJPanel=new GameJPanel(planeController);
-
+        gameJPanel.setPreferredSize(new Dimension(GameConstant.GAME_WINDOW_LEFT_WIDTH,0));
         //右侧布局
         rightJPanel=new RightJPanel();
         rightJPanel.setPreferredSize(new Dimension(GameConstant.GAME_WINDOW_RIGHT_WIDTH,0));

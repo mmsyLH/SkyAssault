@@ -19,31 +19,32 @@ import java.util.List;
  * @author 罗汉
  * @date 2024/01/25
  */
-public class PlaneController{
+public class PlaneController {
     private UI ui;
     private BackGround backGround1;
     private BackGround backGround2;
     private BackGroundTime backGroundTime;
     private FlyObjTime flyObjTime;
     private Player player;
-    private boolean gamePaused = false;//是否暂停游戏
-    private boolean allowMovement = false;//是否鼠标移动
+    private boolean gamePaused = false;// 是否暂停游戏
+    private boolean allowMovement = false;// 是否鼠标移动
+    private List<HeroPlane> heroPlaneList;// 玩家飞机列表
     private List<FlyingObj> flyingObjects; // 存储所有飞行物 敌机、奖励物
-    private List<FlyingObj> boomObjects=new ArrayList<>(); // 存储爆炸效果
-    private List<Bullet> myPlaneBullets=new ArrayList<>();//英雄飞机子弹
-    private List<Bullet> myPlaneRemoveBullets=new ArrayList<>();//英雄飞机子弹销毁池
-    private List<Bullet> enemyPlaneBullets=new ArrayList<>();//敌机子弹
-    private List<Bullet> enemyPlaneRemoveBullets=new ArrayList<>();//敌机子弹销毁池
+    private List<FlyingObj> boomObjects = new ArrayList<>(); // 存储爆炸效果
+    private List<Bullet> myPlaneBullets = new ArrayList<>();// 英雄飞机子弹
+    private List<Bullet> enemyPlaneBullets = new ArrayList<>();// 敌机子弹
+    private List<Bullet> cleanList = new ArrayList<>();// 敌机子弹销毁池
 
     public PlaneController() {
-        backGround1=new BackGround();
-        backGround2=new BackGround();
-        flyingObjects=new ArrayList<>();
-        player=new Player();
+        backGround1 = new BackGround();
+        backGround2 = new BackGround();
         backGround2.setBackY(-GameConstant.GAME_WINDOW_HEIGHT);
-        backGroundTime=new BackGroundTime(this);
-        flyObjTime=new FlyObjTime(this);
-        ui=new UI(this);
+        flyingObjects = new ArrayList<>();
+        player = new Player();
+        heroPlaneList = player.getHeroPlaneList();
+        backGroundTime = new BackGroundTime(this);
+        flyObjTime = new FlyObjTime(this);
+        ui = new UI(this);
     }
 
     public Player getPlayer() {
@@ -73,17 +74,16 @@ public class PlaneController{
             // 如果游戏已经暂停，恢复游戏
             backGroundTime.resumeTimer();
             flyObjTime.resumeTimer();
-            allowMovement=true; // 允许鼠标移动
+            allowMovement = true; // 允许鼠标移动
             gamePaused = false;
         } else {
             // 如果游戏未暂停，暂停游戏
             backGroundTime.pauseTimer();
             flyObjTime.pauseTimer();
-            allowMovement=false; // 禁止鼠标移动
+            allowMovement = false; // 禁止鼠标移动
             gamePaused = true;
         }
     }
-
 
     /**
      * 结束游戏
@@ -93,13 +93,13 @@ public class PlaneController{
         flyObjTime.stopTimer();
         getUi().endGame();
     }
+
     /**
      * 初始化生成随机飞行物
      */
     public void generateRandomFlyingObject() {
         double random;
         FlyingObj flyingObj;
-
         for (int i = 0; i < 20; i++) {
             random = Math.random();
             // 计算y轴偏移量
@@ -122,19 +122,20 @@ public class PlaneController{
     }
 
     /**
-     *  玩家飞机发射子弹
+     * 玩家飞机发射子弹
      */
     public void myPlaneFire() {
-        myPlaneBullets.add(new Bullet(player.getHeroPlane().getFlyX()+player.getHeroPlane().getFlyW()/2-GameConstant.ZIDAN_W/2, player.getHeroPlane().getFlyY()));
+        myPlaneBullets.add(new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(0).getFlyY()));
     }
 
     /**
      * 获取随机的 X 坐标
      */
     private int getRandomX() {
-        int x = (int) (Math.random() * (GameConstant.GAME_WINDOW_LEFT_WIDTH-GameConstant.DEFAULE_W));
+        int x = (int) (Math.random() * (GameConstant.GAME_WINDOW_LEFT_WIDTH - GameConstant.DEFAULE_W));
         return x;
     }
+
     /**
      * 检查敌人命中
      *
@@ -153,7 +154,7 @@ public class PlaneController{
                     Rectangle enemyBounds = enemyPlane.getBounds();
                     if (bulletBounds.intersects(enemyBounds)) {
                         // System.out.println("敌机被击中！");
-                        //设置子弹击中爆炸效果
+                        // 设置子弹击中爆炸效果
                         BoomUtils explosion = new BoomUtils(enemyPlane.getFlyX(), enemyPlane.getFlyY(), GameConstant.ZIDANTO_ENEMYPLANE);
                         boomObjects.add(explosion);
 
@@ -164,6 +165,9 @@ public class PlaneController{
                         // 处理敌机被击中的逻辑
                         if (currentHealth - 1 <= 0) {
                             // System.out.println("敌机已被击毁");
+                            // 击毁效果
+                            BoomUtils explosion2 = new BoomUtils(enemyPlane.getFlyX(), enemyPlane.getFlyY(), GameConstant.ENEMYPLANE_OVER);
+                            boomObjects.add(explosion2);
                             enemyIterator.remove(); // 移除敌机
                         }
                         myBulletIterator.remove(); // 移除我方飞机的子弹
@@ -181,7 +185,8 @@ public class PlaneController{
      * @return boolean
      */
     public boolean checkMyPlaneHit() {
-        Rectangle myPlaneBounds = getPlayer().getHeroPlane().getBounds();
+        Rectangle myPlaneBounds = heroPlaneList.get(0).getBounds();
+        HeroPlane heroPlane = heroPlaneList.get(0);
         Iterator<Bullet> iterator = enemyPlaneBullets.iterator();
         int currentHealth;
         while (iterator.hasNext()) {
@@ -189,9 +194,13 @@ public class PlaneController{
             Rectangle bulletBounds = enemyBullet.getBounds();
             if (myPlaneBounds.intersects(bulletBounds)) {
                 System.out.println("我方飞机被击中！");
+                // 爆炸效果
+                BoomUtils explosion = new BoomUtils(heroPlane.getFlyX(), heroPlane.getFlyY(), GameConstant.ZIDANTO_HEREOPLANE);
+                boomObjects.add(explosion);
+
                 // 减少生命值
-                currentHealth = getPlayer().getHeroPlane().getHealth();
-                getPlayer().getHeroPlane().setHealth(currentHealth - 1);
+                currentHealth = heroPlane.getHealth();
+                heroPlane.setHealth(currentHealth - 1);
                 if (currentHealth - 1 <= 0) {
                     System.out.println("游戏结束！");
                 }
@@ -207,20 +216,32 @@ public class PlaneController{
      *
      * @return boolean
      */
-    public boolean checkMyBulletHitEnemyBullet(){
-        Iterator<Bullet> iterator = myPlaneBullets.iterator();
-        while (iterator.hasNext()) {
-            Bullet myBullet = iterator.next();
+    public boolean checkMyBulletHitEnemyBullet() {
+        Iterator<Bullet> myBulletIterator = myPlaneBullets.iterator();
+        while (myBulletIterator.hasNext()) {
+            Bullet myBullet = myBulletIterator.next();
+            Rectangle myBulletBounds = myBullet.getBounds();
+            Iterator<Bullet> enemyBulletIterator = enemyPlaneBullets.iterator();
+            while (enemyBulletIterator.hasNext()) {
+                Bullet enemyBullet = enemyBulletIterator.next();
+                Rectangle enemyBulletBounds = enemyBullet.getBounds();
+                if (myBulletBounds.intersects(enemyBulletBounds)) {
+                    myBulletIterator.remove(); // 移除我方子弹
+                    enemyBulletIterator.remove(); // 移除敌方子弹
+                    return true;
+                }
+            }
         }
         return false;
     }
+
     /**
      * 检查我飞机碰撞
      *
      * @return boolean
      */
     public boolean checkMyPlaneCollisions() {
-        HeroPlane myPlane =player.getHeroPlane();
+        HeroPlane myPlane = heroPlaneList.get(0);
         Rectangle myPlaneBounds = myPlane.getBounds();
         boolean collisionOccurred = false;
         // 检测与小蜜蜂的碰撞
@@ -349,16 +370,16 @@ public class PlaneController{
         return myPlaneBullets;
     }
 
+    public List<HeroPlane> getHeroPlaneList() {
+        return heroPlaneList;
+    }
+
+    public void setHeroPlaneList(List<HeroPlane> heroPlaneList) {
+        this.heroPlaneList = heroPlaneList;
+    }
+
     public void setMyPlaneBullets(List<Bullet> myPlaneBullets) {
         this.myPlaneBullets = myPlaneBullets;
-    }
-
-    public List<Bullet> getMyPlaneRemoveBullets() {
-        return myPlaneRemoveBullets;
-    }
-
-    public void setMyPlaneRemoveBullets(List<Bullet> myPlaneRemoveBullets) {
-        this.myPlaneRemoveBullets = myPlaneRemoveBullets;
     }
 
     public List<Bullet> getEnemyPlaneBullets() {
@@ -369,11 +390,11 @@ public class PlaneController{
         this.enemyPlaneBullets = enemyPlaneBullets;
     }
 
-    public List<Bullet> getEnemyPlaneRemoveBullets() {
-        return enemyPlaneRemoveBullets;
+    public List<Bullet> getCleanList() {
+        return cleanList;
     }
 
-    public void setEnemyPlaneRemoveBullets(List<Bullet> enemyPlaneRemoveBullets) {
-        this.enemyPlaneRemoveBullets = enemyPlaneRemoveBullets;
+    public void setCleanList(List<Bullet> cleanList) {
+        this.cleanList = cleanList;
     }
 }
