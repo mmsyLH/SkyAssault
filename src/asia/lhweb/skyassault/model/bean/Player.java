@@ -17,8 +17,11 @@ public class Player extends User {
 
 
     public Player() {
-        heroPlaneList.add(new HeroPlane());
-        heroPlaneList.add(new HeroPlane());
+        HeroPlane heroPlane1 = new HeroPlane();
+        heroPlane1.setFlyX(0);
+        HeroPlane heroPlane2 = new HeroPlane();
+        heroPlaneList.add(heroPlane1);
+        heroPlaneList.add(heroPlane2);
     }
 
     public String getPlayerName() {

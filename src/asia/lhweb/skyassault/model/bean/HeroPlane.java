@@ -1,6 +1,8 @@
 package asia.lhweb.skyassault.model.bean;
 
 import asia.lhweb.skyassault.Util.ImageUtils;
+import asia.lhweb.skyassault.config.GameConfig;
+import asia.lhweb.skyassault.constant.GameConstant;
 
 import java.awt.*;
 
@@ -13,11 +15,12 @@ import java.awt.*;
 public class HeroPlane extends FlyingObj{
     private int health; // 生命值属性
     public HeroPlane() {
+        flySpeed= GameConfig.getHeroSpeed();
         health=3;
-        flyX = 100;
-        flyY = 100;
-        flyH=100;
-        flyW=100;
+        flyX = 60;
+        flyY =60;
+        flyH= GameConstant.HERO1_HEIGHT;
+        flyW=GameConstant.HERO1_WIDTH;
         flyName = "英雄飞机";
         flyImage= ImageUtils.getMyPlaneImage1();
     }
@@ -38,7 +41,21 @@ public class HeroPlane extends FlyingObj{
     public void move() {
 
     }
+    public void moveUp() {
+        flyY -= flySpeed;
+    }
 
+    public void moveDown() {
+        flyY += flySpeed;
+    }
+
+    public void moveLeft() {
+        flyX -= flySpeed;
+    }
+
+    public void moveRight() {
+        flyX += flySpeed;
+    }
     public int getHealth() {
         return health;
     }

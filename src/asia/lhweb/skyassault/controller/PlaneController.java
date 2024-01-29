@@ -36,6 +36,7 @@ public class PlaneController {
     private List<Bullet> cleanList = new ArrayList<>();// 敌机子弹销毁池
 
     public PlaneController() {
+        //创建一堆对象
         backGround1 = new BackGround();
         backGround2 = new BackGround();
         backGround2.setBackY(-GameConstant.GAME_WINDOW_HEIGHT);
@@ -47,23 +48,17 @@ public class PlaneController {
         ui = new UI(this);
     }
 
-    public Player getPlayer() {
-        return player;
-    }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
 
     /**
      * 开始游戏
      */
     public void startGame() {
-        generateRandomFlyingObject();
-        setAllowMovement(true);
-        getUi().getGameJFrame().getGameJPanel().setListener();
-        backGroundTime.startTimer();
-        flyObjTime.startTimer();
+        generateRandomFlyingObject();//初始化随机生成物
+        setAllowMovement(true);//是否可以点击
+        getUi().getGameJFrame().getGameJPanel().setListener();//开启监听器
+        backGroundTime.startTimer();//开启背景定时器
+        flyObjTime.startTimer();//开启飞行物定时器
     }
 
     /**
@@ -71,12 +66,14 @@ public class PlaneController {
      */
     public void pauseGame() {
         if (gamePaused) {
+
             // 如果游戏已经暂停，恢复游戏
             backGroundTime.resumeTimer();
             flyObjTime.resumeTimer();
             allowMovement = true; // 允许鼠标移动
             gamePaused = false;
         } else {
+
             // 如果游戏未暂停，暂停游戏
             backGroundTime.pauseTimer();
             flyObjTime.pauseTimer();
@@ -122,12 +119,18 @@ public class PlaneController {
     }
 
     /**
-     * 玩家飞机发射子弹
+     * 玩家飞机发射子弹-键盘玩家
      */
-    public void myPlaneFire() {
-        myPlaneBullets.add(new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(0).getFlyY()));
+    public void myPlaneFireLeft() {
+        myPlaneBullets.add(new Bullet(player.getHeroPlaneList().get(1).getFlyX() + player.getHeroPlaneList().get(1).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(1).getFlyY()));
     }
 
+    /**
+     * 玩家飞机发射子弹-鼠标玩家
+     */
+    public void myPlaneFireRight() {
+        myPlaneBullets.add(new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(0).getFlyY()));
+    }
     /**
      * 获取随机的 X 坐标
      */
@@ -194,6 +197,7 @@ public class PlaneController {
             Rectangle bulletBounds = enemyBullet.getBounds();
             if (myPlaneBounds.intersects(bulletBounds)) {
                 System.out.println("我方飞机被击中！");
+
                 // 爆炸效果
                 BoomUtils explosion = new BoomUtils(heroPlane.getFlyX(), heroPlane.getFlyY(), GameConstant.ZIDANTO_HEREOPLANE);
                 boomObjects.add(explosion);
@@ -267,7 +271,7 @@ public class PlaneController {
                 DoubleFirePower doubleFirePower = (DoubleFirePower) flyingObj;
                 Rectangle doubleFirePowerBounds = doubleFirePower.getBounds();
                 if (myPlaneBounds.intersects(doubleFirePowerBounds)) {
-                    // 处理与双倍火力奖励的碰撞逻辑，例如增加火力等
+                    // todo 例如增加火力等
                     System.out.println("与双倍火力奖励碰撞！");
                     iterator.remove(); // 移除双倍火力奖励
                     collisionOccurred = true;
@@ -283,7 +287,7 @@ public class PlaneController {
                 NuclearBomb nuclearBomb = (NuclearBomb) flyingObj;
                 Rectangle nuclearBombBounds = nuclearBomb.getBounds();
                 if (myPlaneBounds.intersects(nuclearBombBounds)) {
-                    // 处理与核弹奖励的碰撞逻辑，例如使用核弹等
+                    // todo 例如使用核弹等
                     System.out.println("与核弹奖励碰撞！");
                     iterator.remove(); // 移除核弹奖励
                     collisionOccurred = true;
@@ -294,6 +298,10 @@ public class PlaneController {
         return collisionOccurred;
     }
 
+
+
+
+    /////////////////////////////////////get、set
     public List<FlyingObj> getBoomObjects() {
         return boomObjects;
     }
@@ -396,5 +404,12 @@ public class PlaneController {
 
     public void setCleanList(List<Bullet> cleanList) {
         this.cleanList = cleanList;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

@@ -47,6 +47,14 @@ public interface GameConstant {
     String HERO1 = "images/myplane/hero2_0.png";
     String HERO1_0 = "images/myplane/hero2_1.png";
     /**
+     * hero1宽度
+     */
+    int HERO1_WIDTH =60;
+    /**
+     * hero1高度
+     */
+    int HERO1_HEIGHT =60;
+    /**
      * 敌人plane1
      */
     String ENEMY_PLANE1 = "images/enemyplane/enemyPlane1_1_0.png";

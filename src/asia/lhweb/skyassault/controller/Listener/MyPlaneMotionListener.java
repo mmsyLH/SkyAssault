@@ -1,6 +1,7 @@
 package asia.lhweb.skyassault.controller.Listener;
 
 
+import asia.lhweb.skyassault.constant.GameConstant;
 import asia.lhweb.skyassault.controller.PlaneController;
 import asia.lhweb.skyassault.model.bean.Player;
 
@@ -33,9 +34,8 @@ public class MyPlaneMotionListener implements MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         if (planeController.isAllowMovement()) {
             player = planeController.getPlayer();
-            player.getHeroPlaneList().get(0).setFlyX(e.getX() - 50);
-            player.getHeroPlaneList().get(0).setFlyY(e.getY() - 50);
-
+            player.getHeroPlaneList().get(0).setFlyX(e.getX() - GameConstant.HERO1_WIDTH/2);
+            player.getHeroPlaneList().get(0).setFlyY(e.getY() - GameConstant.HERO1_HEIGHT/2);
         }
     }
 }

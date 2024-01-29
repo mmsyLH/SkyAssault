@@ -21,7 +21,7 @@ public class FlyObjTime {
     private PlaneController planeController;
     private int myPlaneIndex = 0;// 控制喷火效果的计时器
     private int bulletCounter = 0;// 计时器
-    private int bulletDelay = 4; // 控制子弹发射速度的延迟
+    private int bulletDelay = 10; // 控制子弹发射速度的延迟
     private List<FlyingObj> flyingObjs;
     private List<HeroPlane> heroPlaneList;
     private List<Bullet> enemyPlaneBullets;
@@ -57,7 +57,7 @@ public class FlyObjTime {
 
             if (bulletCounter % bulletDelay == 0) {
                 // 我方飞机开火
-                planeController.myPlaneFire();
+                planeController.myPlaneFireRight();
             }
             if (bulletCounter % (5 * bulletDelay) == 0) {
                 // 敌机飞机发射子弹
