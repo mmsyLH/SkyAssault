@@ -12,11 +12,11 @@ import java.awt.*;
  * @author 罗汉
  * @date 2024/01/26
  */
-public class HeroPlane extends FlyingObj{
-    private int health; // 生命值属性
+public class HeroPlane extends Plane {
+
     public HeroPlane() {
         flySpeed= GameConfig.getHeroSpeed();
-        health=3;
+        init(5, Color.green);
         flyX = 60;
         flyY =60;
         flyH= GameConstant.HERO1_HEIGHT;
@@ -26,15 +26,18 @@ public class HeroPlane extends FlyingObj{
     }
 
     @Override
-    public void drawFlayer(Graphics g) {
+    public void drawFlyer(Graphics g) {
+        int hpHeight = 80;
         if (flyType == 1) {
             flyImage = ImageUtils.getMyPlaneImage1();
             g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
-
         } else {
             flyImage =ImageUtils.getMyPlaneImage1_0();
             g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
         }
+        g.setColor(getHealthColor());
+        g.fillRect(flyX  + (flyW - hpHeight) / 2, flyY - 10, (int) (1.0 * hpHeight * getHealth() / getHealthLimit()), 5);
+
     }
 
     @Override
@@ -87,12 +90,5 @@ public class HeroPlane extends FlyingObj{
         } else {
             flyX = GameConstant.GAME_WINDOW_LEFT_WIDTH - flyW-flySpeed;
         }
-    }
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 }

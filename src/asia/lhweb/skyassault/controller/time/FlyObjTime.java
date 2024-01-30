@@ -51,7 +51,7 @@ public class FlyObjTime {
 
 
             // 设置玩家飞机的喷火效果切换
-            myPlaneIndex = (myPlaneIndex + 1) % 2;
+            myPlaneIndex = (myPlaneIndex + 1) % 2;//j
             heroPlaneList.get(0).setFlyType((myPlaneIndex == 0) ? 1 : 2);
 
 

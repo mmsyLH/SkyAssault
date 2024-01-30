@@ -138,7 +138,7 @@ public class PlaneController {
      * 获取随机的 X 坐标
      */
     private int getRandomX() {
-        int x = (int) (Math.random() * (GameConstant.GAME_WINDOW_LEFT_WIDTH - GameConstant.DEFAULE_W));
+        int x = (int) (Math.random() * (GameConstant.GAME_WINDOW_LEFT_WIDTH - GameConstant.Enemy_WIDTH));
         return x;
     }
 

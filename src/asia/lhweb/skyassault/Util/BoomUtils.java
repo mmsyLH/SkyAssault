@@ -3,6 +3,8 @@ package asia.lhweb.skyassault.Util;
 import asia.lhweb.skyassault.constant.GameConstant;
 import asia.lhweb.skyassault.model.bean.FlyingObj;
 
+import java.awt.*;
+
 
 /**
  * @author :罗汉
@@ -33,8 +35,12 @@ public class BoomUtils extends FlyingObj {
     }
 
     @Override
-    public void move() {
+    public void drawFlyer(Graphics g) {
+        g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
+    }
 
+    @Override
+    public void move() {
     }
 
     /**

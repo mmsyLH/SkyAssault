@@ -17,7 +17,7 @@ public class DataUtils {
      */
     public static <T extends FlyingObj> void drawObjects(Graphics g, java.util.List<T> objects) {
         for (FlyingObj obj : objects) {
-            obj.drawFlayer(g);
+            obj.drawFlyer(g);
         }
     }
 }

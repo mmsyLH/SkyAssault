@@ -11,22 +11,17 @@ import java.awt.*;
  * @author 罗汉
  * @date 2024/01/26
  */
-public class EnemyPlane extends FlyingObj {
-    private int health; // 生命值属性
+public class EnemyPlane extends Plane {
+
     private boolean movingRight = true; // 标记Z字形移动方向
     public EnemyPlane() {
         flyH = 80;
         flyW = 80;
         flySpeed=GameConstant.FLY_DEFAULT_SPEED;
-        health=5;
+        init(5, Color.red);
         flyType = 1;
         flyName = "敌机";
         flyImage = ImageUtils.getEnemyPlaneImage1();
-    }
-
-    @Override
-    public void drawFlayer(Graphics g) {
-        g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
     }
 
     @Override
@@ -42,13 +37,5 @@ public class EnemyPlane extends FlyingObj {
             movingRight = !movingRight;
         }
         flyY += flySpeed;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 }

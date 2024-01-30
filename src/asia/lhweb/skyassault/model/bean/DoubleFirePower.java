@@ -26,7 +26,7 @@ public class DoubleFirePower extends FlyingObj {
     }
 
     @Override
-    public void drawFlayer(Graphics g) {
+    public void drawFlyer(Graphics g) {
         g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
     }
 

@@ -101,6 +101,14 @@ public interface GameConstant {
      */
     int HERO1_HEIGHT =60;
     /**
+     * hero1宽度
+     */
+    int Enemy_WIDTH =60;
+    /**
+     * hero1高度
+     */
+    int Enemy_HEIGHT =60;
+    /**
      * 敌人plane1
      */
     String ENEMY_PLANE1 = "images/enemyplane/enemyPlane1_1_0.png";
@@ -129,8 +137,13 @@ public interface GameConstant {
     int ZIDAN_H = 10;
 
     int ZIDAN_SPEED = 7;
-    ///////////////////////////////////////////////////////////////飞行物类别
+    /**
+     * 飞行默认速度
+     *////////////////////////////////////////////////////////////////飞行物类别
     int FLY_DEFAULT_SPEED = 3;
+    /**
+     * defaule w
+     */
     int DEFAULE_W = 50;
 
     ////////////////////////////////////////////////////////////////爆炸类
@@ -184,6 +197,10 @@ public interface GameConstant {
      * 子弹打到敌机的爆炸
      */
     String ZIDANTO_ENEMYPLANE = "ZIDANTO_ENEMYPLANE";
+    /**
+     * 雷达
+     */
+    String RADAR = "RADAR";
     /**
      * 子弹打到子弹的爆炸
      */

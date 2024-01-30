@@ -10,6 +10,7 @@ import java.awt.*;
  * @date : 2024/1/26
  */
 public class Bullet extends FlyingObj{
+    //todo 敌机、追种能力
     public Bullet() {
         flyH= GameConstant.ZIDAN_H;
         flyW=GameConstant.ZIDAN_W;
@@ -32,12 +33,13 @@ public class Bullet extends FlyingObj{
     }
 
     @Override
-    public void drawFlayer(Graphics g) {
+    public void drawFlyer(Graphics g) {
         g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
     }
 
     @Override
     public void move() {
+        // todo 判断有没有追踪敌机
         if (flyType==0){//向上移动
             flyY-=GameConstant.FLY_DEFAULT_SPEED+flySpeed;
         }else {

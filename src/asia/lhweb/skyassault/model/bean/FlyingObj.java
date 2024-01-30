@@ -25,9 +25,8 @@ public abstract class FlyingObj {
         isHit = hit;
     }
 
-    public void drawFlayer(Graphics g) {
-        g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
-    }
+    public abstract void drawFlyer(Graphics g);
+
     public abstract void move();
 
     public int getFlySpeed() {
