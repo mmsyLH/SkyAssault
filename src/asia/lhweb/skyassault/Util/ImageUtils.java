@@ -19,8 +19,11 @@ public class ImageUtils {
     public static Image planeBoomImage4;//爆炸图像4
     public static Image planeBoomImage5;//爆炸图像5
 
+    public static Image[] radarImages;// 雷达图数组
 
-    static {
+    public ImageUtils() {
+    }
+    public static void init() {
         // 初始化背景图像
         bgImage = new ImageIcon(GameConstant.GAME_BG1).getImage();
         // 初始化飞机图像
@@ -40,6 +43,21 @@ public class ImageUtils {
         planeBoomImage3 = new ImageIcon(GameConstant.DEFAULT_BOOM3).getImage();
         planeBoomImage4 = new ImageIcon(GameConstant.DEFAULT_BOOM4).getImage();
         planeBoomImage5 = new ImageIcon(GameConstant.DEFAULT_BOOM5).getImage();
+
+        // 初始化雷达图数组
+        radarImages = new Image[GameConstant.RADAR_IMAGES.length];
+        for (int i = 0; i < GameConstant.RADAR_IMAGES.length; i++) {
+            radarImages[i] = new ImageIcon(GameConstant.RADAR_IMAGES[i]).getImage();
+        }
+    }
+
+    /**
+     * 获取雷达图数组
+     *
+     * @return {@link Image[]}
+     */
+    public static Image[] getRadarImages() {
+        return radarImages;
     }
 
     /**

@@ -1,4 +1,4 @@
-package asia.lhweb.skyassault.Test;
+	package asia.lhweb.skyassault.Test;
 
 import java.io.IOException;
 

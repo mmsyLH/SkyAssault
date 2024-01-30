@@ -1,6 +1,7 @@
 package asia.lhweb.skyassault.controller;
 
 import asia.lhweb.skyassault.Util.BoomUtils;
+import asia.lhweb.skyassault.View.RightJPanel;
 import asia.lhweb.skyassault.View.UI;
 import asia.lhweb.skyassault.constant.GameConstant;
 import asia.lhweb.skyassault.controller.time.BackGroundTime;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 public class PlaneController {
     private UI ui;
+    private RightJPanel rightJPanel;
     private BackGround backGround1;
     private BackGround backGround2;
     private BackGroundTime backGroundTime;
@@ -33,7 +35,7 @@ public class PlaneController {
     private List<FlyingObj> boomObjects = new ArrayList<>(); // 存储爆炸效果
     private List<Bullet> myPlaneBullets = new ArrayList<>();// 英雄飞机子弹
     private List<Bullet> enemyPlaneBullets = new ArrayList<>();// 敌机子弹
-    private List<Bullet> cleanList = new ArrayList<>();// 敌机子弹销毁池
+    private List<FlyingObj> cleanList = new ArrayList<>();// 敌机子弹销毁池
 
     public PlaneController() {
         //创建一堆对象
@@ -46,6 +48,7 @@ public class PlaneController {
         backGroundTime = new BackGroundTime(this);
         flyObjTime = new FlyObjTime(this);
         ui = new UI(this);
+        rightJPanel = ui.getGameJFrame().getRightJPanel();//右侧信息面板
     }
 
 
@@ -140,6 +143,21 @@ public class PlaneController {
     }
 
     /**
+     * 爆炸效果爆炸
+     */
+    public void processExplosions() {
+        for (Iterator<FlyingObj> iterator = getBoomObjects().iterator(); iterator.hasNext(); ) {
+            FlyingObj flyingObj = iterator.next();
+            if (flyingObj instanceof BoomUtils) {
+                BoomUtils explosion = (BoomUtils) flyingObj;
+                if (!explosion.explosive()) {
+                    iterator.remove(); // 移除爆炸效果
+                }
+            }
+        }
+    }
+
+    /**
      * 检查敌人命中
      *
      * @return boolean
@@ -205,6 +223,7 @@ public class PlaneController {
                 // 减少生命值
                 currentHealth = heroPlane.getHealth();
                 heroPlane.setHealth(currentHealth - 1);
+                rightJPanel.setHealth(currentHealth);
                 if (currentHealth - 1 <= 0) {
                     System.out.println("游戏结束！");
                 }
@@ -256,7 +275,7 @@ public class PlaneController {
                 Bee bee = (Bee) flyingObj;
                 Rectangle beeBounds = bee.getBounds();
                 if (myPlaneBounds.intersects(beeBounds)) {
-                    System.out.println("与小蜜蜂碰撞！");
+                    rightJPanel.setHealth(rightJPanel.getHealth()+1);
                     iterator.remove(); // 移除小蜜蜂
                     collisionOccurred = true;
                 }
@@ -273,7 +292,7 @@ public class PlaneController {
                 if (myPlaneBounds.intersects(doubleFirePowerBounds)) {
                     // todo 例如增加火力等
                     System.out.println("与双倍火力奖励碰撞！");
-                    iterator.remove(); // 移除双倍火力奖励
+                    iterator.remove(); // 移除双倍火力
                     collisionOccurred = true;
                 }
             }
@@ -287,9 +306,9 @@ public class PlaneController {
                 NuclearBomb nuclearBomb = (NuclearBomb) flyingObj;
                 Rectangle nuclearBombBounds = nuclearBomb.getBounds();
                 if (myPlaneBounds.intersects(nuclearBombBounds)) {
-                    // todo 例如使用核弹等
-                    System.out.println("与核弹奖励碰撞！");
-                    iterator.remove(); // 移除核弹奖励
+                    // 碰撞后
+                    rightJPanel.setBomb(rightJPanel.getBomb()+1);
+                    iterator.remove(); // 移除核弹
                     collisionOccurred = true;
                 }
             }
@@ -398,11 +417,11 @@ public class PlaneController {
         this.enemyPlaneBullets = enemyPlaneBullets;
     }
 
-    public List<Bullet> getCleanList() {
+    public List<FlyingObj> getCleanList() {
         return cleanList;
     }
 
-    public void setCleanList(List<Bullet> cleanList) {
+    public void setCleanList(List<FlyingObj> cleanList) {
         this.cleanList = cleanList;
     }
     public Player getPlayer() {

@@ -47,17 +47,7 @@ public class GameJPanel extends JPanel {
         DataUtils.drawObjects(g, planeController.getEnemyPlaneBullets());
 
         // 绘制爆炸效果
-        for (Iterator<FlyingObj> iterator = planeController.getBoomObjects().iterator(); iterator.hasNext(); ) {
-            FlyingObj flyingObj = iterator.next();
-            if (flyingObj instanceof BoomUtils) {
-                BoomUtils explosion = (BoomUtils) flyingObj;
-                if (!explosion.explosive()) {
-                    iterator.remove(); // 移除爆炸效果
-                } else {
-                    explosion.drawFlayer(g); // 绘制爆炸效果
-                }
-            }
-        }
+        DataUtils.drawObjects(g, planeController.getBoomObjects());
     }
 
     /**

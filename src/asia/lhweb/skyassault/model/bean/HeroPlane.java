@@ -41,20 +41,52 @@ public class HeroPlane extends FlyingObj{
     public void move() {
 
     }
+
+    /**
+     * 向上移动
+     */
     public void moveUp() {
-        flyY -= flySpeed;
+        if (flyY - flySpeed >= 0) {
+            flyY -= flySpeed;
+        } else {
+            flyY = 0;
+        }
     }
 
+    /**
+     * 向下移动
+     */
     public void moveDown() {
-        flyY += flySpeed;
+        if (flyY <= GameConstant.GAME_WINDOW_LEFT_HEIGHT - flyH) {
+            flyY += flySpeed;
+        } else {
+            flyY = GameConstant.GAME_WINDOW_LEFT_HEIGHT- flyH/2-flySpeed;
+        }
     }
 
+    /**
+     * 移动左
+     */
     public void moveLeft() {
-        flyX -= flySpeed;
+        if (flyX - flySpeed >= 0) {
+            flyX -= flySpeed;
+        } else {
+            flyX = 0;
+        }
     }
 
+    /**
+     * 移动右
+     */
     public void moveRight() {
-        flyX += flySpeed;
+        // int x=flyX;
+        // int y=GameConstant.GAME_WINDOW_LEFT_WIDTH - flyW;
+        // System.out.println("x=" + x + " y=" + y);
+        if (flyX +flySpeed<GameConstant.GAME_WINDOW_LEFT_WIDTH - flyW) {//750-60 690
+            flyX += flySpeed;
+        } else {
+            flyX = GameConstant.GAME_WINDOW_LEFT_WIDTH - flyW-flySpeed;
+        }
     }
     public int getHealth() {
         return health;

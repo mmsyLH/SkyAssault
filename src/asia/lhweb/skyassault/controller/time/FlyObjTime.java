@@ -25,7 +25,7 @@ public class FlyObjTime {
     private List<FlyingObj> flyingObjs;
     private List<HeroPlane> heroPlaneList;
     private List<Bullet> enemyPlaneBullets;
-    private List<Bullet> cleanList;
+    private List<FlyingObj> cleanList;
     private List<Bullet> myPlaneBullets;
 
     public FlyObjTime(PlaneController planeController) {
@@ -90,6 +90,9 @@ public class FlyObjTime {
             if (planeController.checkMyBulletHitEnemyBullet()) {
 
             }
+
+            //绘制爆炸效果
+            planeController.processExplosions();
 
 
             // 移动玩家飞机的子弹

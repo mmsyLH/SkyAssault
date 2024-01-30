@@ -7,6 +7,7 @@ import asia.lhweb.skyassault.controller.PlaneController;
 
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author :罗汉
@@ -33,5 +34,8 @@ public class GameMenu extends JMenuBar {
         jMenu.add(endItem);
 
         add(jMenu);
+        // 设置菜单栏的首选大小，包括高度
+        setPreferredSize(new Dimension(GameConstant.GAME_WINDOW_WIDTH, GameConstant.MENU_BAR_HEIGHT));
+
     }
 }

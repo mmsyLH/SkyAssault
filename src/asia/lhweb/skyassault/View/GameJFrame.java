@@ -24,16 +24,16 @@ public class GameJFrame extends JFrame {
         setLocationRelativeTo(null);//居中
         setResizable(false);//固定窗口大小
         //顶部菜单栏
-        gameMenu=new GameMenu(planeController);
-
+        gameMenu= new GameMenu(planeController);
 
         //左侧主布局
         gameJPanel=new GameJPanel(planeController);
         gameJPanel.setPreferredSize(new Dimension(GameConstant.GAME_WINDOW_LEFT_WIDTH,0));
+
         //右侧布局
         rightJPanel=new RightJPanel();
         rightJPanel.setPreferredSize(new Dimension(GameConstant.GAME_WINDOW_RIGHT_WIDTH,0));
-        rightJPanel.setBackground(Color.cyan);
+        rightJPanel.setBackground(new Color(0xEEEEEE));
 
         //添加画板
         setJMenuBar(gameMenu);

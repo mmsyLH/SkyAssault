@@ -17,6 +17,11 @@ public interface GameConstant {
     String GAME_START = "start";
     String GAME_END = "end";
     String GAME_PAUSE = "pause";
+    ////////////////////////////////////菜单栏
+    /**
+     * 菜单栏高度
+     */
+    int MENU_BAR_HEIGHT =30 ;
     String MENU_NAME = "菜单";
     String MENU_START = "开始游戏";
     String MENU_END = "结束游戏";
@@ -41,6 +46,47 @@ public interface GameConstant {
      * 游戏窗口右宽度
      */
     int GAME_WINDOW_RIGHT_WIDTH = 250;
+    /**
+     * 分数文本
+     */////////////////////////////////////////////////////////////////游戏右侧面板信息类
+    String SCORE_TEXT = "得分: ";
+    /**
+     * 健康文本
+     */
+    String HEALTH_TEXT = "生命值: ";
+    String LEVEL_TEXT = "当前关卡: 第";
+    /**
+     * 炸弹文本
+     */
+    String BOMB_TEXT = "拥有核弹数: ";
+    /**
+     * 敌人传递文本
+     */
+    String ENEMY_PASSED_TEXT = "越过防线敌机数: ";
+    /**
+     * 看不到敌人文字
+     */
+    String NOT_SEE_ENEMY_TEXT = "未出现敌机数: ";
+    /**
+     * 基本敌人文本
+     */
+    String BASIC_ENEMY_TEXT = "初级敌机: ";
+    /**
+     * 中间敌人文本
+     */
+    String INTERMEDIATE_ENEMY_TEXT = "中级敌机: ";
+    /**
+     * Boss敌人文本
+     */
+    String BOSS_ENEMY_TEXT = "敌机Boss: ";
+    /**
+     * 雷达文本
+     */
+    String RADAR_TEXT = "我方电子侦测雷达:";
+    String GUAN = "关";
+    String MEI = "枚";
+    String JIA = "架";
+
     /**
      * hero1
      *////////////////////////////////////////////////////////////飞机类别
@@ -155,5 +201,41 @@ public interface GameConstant {
      */
     String ENEMYPLANE_OVER = "ENEMYPLANE_OVER";
 
+    /////////////////////////////////////////////////雷达图
+    /**
+     * 雷达图数组
+     */
+    String[] RADAR_IMAGES = {
+            "images/radar/1.png",
+            "images/radar/2.png",
+            "images/radar/3.png",
+            "images/radar/4.png",
+            "images/radar/5.png",
+            "images/radar/6.png",
+            "images/radar/7.png",
+            "images/radar/8.png",
+            "images/radar/9.png",
+            "images/radar/10.png",
+            "images/radar/11.png",
+            "images/radar/12.png",
+            "images/radar/13.png",
+            "images/radar/14.png",
+            "images/radar/15.png",
+            "images/radar/16.png",
+            "images/radar/17.png",
+            "images/radar/18.png",
+            "images/radar/19.png",
+            "images/radar/20.png",
+            "images/radar/21.png",
+            "images/radar/22.png",
+            "images/radar/23.png",
+            "images/radar/24.png",
+            "images/radar/25.png",
+            "images/radar/26.png",
+            "images/radar/27.png",
+            "images/radar/28.png",
+            "images/radar/29.png",
+            "images/radar/30.png",
+    };
 
 }
