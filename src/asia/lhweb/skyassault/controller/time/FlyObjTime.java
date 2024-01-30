@@ -1,15 +1,15 @@
 package asia.lhweb.skyassault.controller.time;
 
-import asia.lhweb.skyassault.Util.BoomUtils;
-import asia.lhweb.skyassault.constant.GameConstant;
+import asia.lhweb.skyassault.Util.DataUtils;
+import asia.lhweb.skyassault.Util.MusicUtils;
 import asia.lhweb.skyassault.controller.PlaneController;
-import asia.lhweb.skyassault.model.bean.*;
+import asia.lhweb.skyassault.model.bean.fly.Bullet;
+import asia.lhweb.skyassault.model.bean.fly.FlyingObj;
+import asia.lhweb.skyassault.model.bean.plane.HeroPlane;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 import java.util.List;
 
 public class FlyObjTime {
@@ -19,14 +19,14 @@ public class FlyObjTime {
     private int delay;
     private Timer bgTimer;
     private PlaneController planeController;
-    private int myPlaneIndex = 0;// 控制喷火效果的计时器
     private int bulletCounter = 0;// 计时器
     private int bulletDelay = 10; // 控制子弹发射速度的延迟
     private List<FlyingObj> flyingObjs;
     private List<HeroPlane> heroPlaneList;
-    private List<Bullet> enemyPlaneBullets;
+    private List<Bullet> enemyPlaneBulletList;
     private List<FlyingObj> cleanList;
-    private List<Bullet> myPlaneBullets;
+    private List<Bullet> myPlaneBulletList;
+
 
     public FlyObjTime(PlaneController planeController) {
         this.planeController = planeController;
@@ -37,97 +37,91 @@ public class FlyObjTime {
     public ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // 得到子弹集合列表
-            getBulletsList();
-
             // 计数器递增
             bulletCounter++;
 
+            // 得到各种飞行物列表
+            getFlyList();
+
+            // 绘制雷达
+            planeController.getRadar().switchImage();
+
             // 敌机移动
-            flyingObjs = planeController.getFlyingObjects();
-            for (FlyingObj flyingObj : flyingObjs) {
-                flyingObj.move();
-            }
+            flyingObjs.forEach(FlyingObj::move);
 
-
-            // 设置玩家飞机的喷火效果切换
-            myPlaneIndex = (myPlaneIndex + 1) % 2;//j
-            heroPlaneList.get(0).setFlyType((myPlaneIndex == 0) ? 1 : 2);
-
-
-            if (bulletCounter % bulletDelay == 0) {
-                // 我方飞机开火
+            if (bulletCounter % bulletDelay == 0) {// 我方飞机开火
                 planeController.myPlaneFireRight();
+                MusicUtils.startFireMusicThread();
             }
-            if (bulletCounter % (5 * bulletDelay) == 0) {
-                // 敌机飞机发射子弹
-                Bullet bullet;
-                for (FlyingObj flyingObj : flyingObjs) {
-                    if (flyingObj instanceof EnemyPlane) {
-                        EnemyPlane enemyPlane = (EnemyPlane) flyingObj;
-                        bullet = new Bullet(enemyPlane.getFlyX() + enemyPlane.getFlyW() / 2 + GameConstant.ZIDAN_W / 2, enemyPlane.getFlyY() + enemyPlane.getFlyH());
-                        bullet.setFlyType(2);
-                        enemyPlaneBullets.add(bullet);
-                    }
-                }
+            if (bulletCounter % (5 * bulletDelay) == 0) {// 敌机开火
+                planeController.enemyFire();
+            }
+            if (bulletCounter % (10 * bulletDelay) == 0) {// boss开火
+                planeController.bossFire();
             }
 
             // 检查我方飞机是否被击中
             if (planeController.checkMyPlaneHit()) {
-
+                // todo 播放被击中的音效
+                MusicUtils.startEnemyMusicThread();
             }
 
             // 检查敌机是否被击中
             if (planeController.checkEnemyHit()) {
 
+                MusicUtils.startEnemyMusicThread();
             }
+
+            // 检查boss是否被击中
+            if (planeController.checkBossHit()) {
+
+                MusicUtils.startEnemyMusicThread();
+            }
+
             // 检查我方飞机与其他物品的碰撞
             if (planeController.checkMyPlaneCollisions()) {
 
+                MusicUtils.startRebornMusicThread();
             }
 
             // 检查我方子弹与地方子弹的碰撞
             if (planeController.checkMyBulletHitEnemyBullet()) {
+                // todo 播放碰撞奖励的音效
 
             }
 
-            //绘制爆炸效果
+            // 绘制爆炸效果
             planeController.processExplosions();
 
-
             // 移动玩家飞机的子弹
-            for (Bullet myPlaneBullet : myPlaneBullets) {
-                myPlaneBullet.move();
-                if (myPlaneBullet.isOutOfBound()) {
-                    cleanList.add(myPlaneBullet);
-                }
-            }
+            DataUtils.drawBullet(myPlaneBulletList, cleanList);
             // 移动敌机飞机的子弹
-            for (Bullet enemyPlaneBullet : enemyPlaneBullets) {
-                enemyPlaneBullet.move();
-                if (enemyPlaneBullet.isOutOfBound()) {
-                    cleanList.add(enemyPlaneBullet);
-                }
-            }
+            DataUtils.drawBullet(enemyPlaneBulletList, cleanList);
 
 
             // 删除越界的子弹
-            myPlaneBullets.removeAll(cleanList);
-            enemyPlaneBullets.removeAll(cleanList);
+            myPlaneBulletList.removeAll(cleanList);
+            enemyPlaneBulletList.removeAll(cleanList);
             cleanList.clear();
 
-
+            // 测试
+            // System.out.println("flyingObjs长度"+flyingObjs.size());
+            // System.out.println("heroPlaneList长度"+heroPlaneList.size());
+            // System.out.println("enemyPlaneBulletList长度"+enemyPlaneBulletList.size());
+            // System.out.println("cleanList长度"+cleanList.size());
+            // System.out.println("myPlaneBulletList长度"+myPlaneBulletList.size());
         }
     };
 
     /**
      * 获取子弹列表
      */
-    private void getBulletsList() {
-        myPlaneBullets = planeController.getMyPlaneBullets();
+    private void getFlyList() {
+        myPlaneBulletList = planeController.getmyPlaneBulletList();
         cleanList = planeController.getCleanList();
-        enemyPlaneBullets = planeController.getEnemyPlaneBullets();
-        heroPlaneList=planeController.getHeroPlaneList();
+        enemyPlaneBulletList = planeController.getenemyPlaneBulletList();
+        flyingObjs = planeController.getflyingObjectList();
+        heroPlaneList = planeController.getHeroPlaneList();
     }
 
 
@@ -158,7 +152,6 @@ public class FlyObjTime {
     public void resumeTimer() {
         bgTimer.start();
     }
-
 
     public int getDelay() {
         return delay;

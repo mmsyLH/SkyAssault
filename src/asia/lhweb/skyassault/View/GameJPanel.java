@@ -31,20 +31,23 @@ public class GameJPanel extends JPanel {
         setFocusable(true);//获取焦点
         planeController.getBackGround1().drawBackGround(g);
         planeController.getBackGround2().drawBackGround(g);
+
         (planeController.getPlayer().getHeroPlaneList()).get(0).drawFlyer(g);
         (planeController.getPlayer().getHeroPlaneList()).get(1).drawFlyer(g);
 
         // 遍历敌机集合调用绘制方法
-        DataUtils.drawObjects(g, planeController.getFlyingObjects());
+        DataUtils.drawObjects(g, planeController.getflyingObjectList());
 
         // 遍历英雄机子弹集合调用绘制方法
-        DataUtils.drawObjects(g, planeController.getMyPlaneBullets());
+        DataUtils.drawObjects(g, planeController.getmyPlaneBulletList());
 
         // 遍历敌机子弹集合调用绘制方法
-        DataUtils.drawObjects(g, planeController.getEnemyPlaneBullets());
+        DataUtils.drawObjects(g, planeController.getenemyPlaneBulletList());
 
         // 绘制爆炸效果
-        DataUtils.drawObjects(g, planeController.getBoomObjects());
+        DataUtils.drawObjects(g, planeController.getboomObjectList());
+
+
     }
 
     /**

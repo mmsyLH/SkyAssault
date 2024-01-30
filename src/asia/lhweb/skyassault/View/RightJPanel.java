@@ -1,6 +1,9 @@
 package asia.lhweb.skyassault.View;
 
+import asia.lhweb.skyassault.Util.DataUtils;
+import asia.lhweb.skyassault.Util.ImageUtils;
 import asia.lhweb.skyassault.constant.GameConstant;
+import asia.lhweb.skyassault.controller.PlaneController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,9 +47,11 @@ public class RightJPanel extends JPanel {
      */
     private JLabel radarLabel;          // 我方电子侦测雷达
     private JLabel radarImageLabel;     // 雷达图
+    private PlaneController planeController;
 
-    public RightJPanel() {
+    public RightJPanel(PlaneController planeController) {
         setLayout(null);
+        this.planeController = planeController;
 
         scoreLabel = new JLabel(GameConstant.SCORE_TEXT + score);
         scoreLabel.setBounds(20, 30, 100, 30);
@@ -79,11 +84,14 @@ public class RightJPanel extends JPanel {
         radarLabel.setBounds(250 / 4, 300, 150, 30);
         setForeground(new Color(241, 83, 119));
 
-        radarImageLabel = new JLabel("雷达图");
-        radarImageLabel.setBounds(250 / 4, 330, 150, 150);
-
         //添加面板 把所有label添加到panel中
         addLabel();
+    }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);//继承父类的面板绘制
+        //绘制雷达
+        planeController.getRadar().drawBackGround(g);
     }
 
     private void addLabel() {
@@ -97,7 +105,6 @@ public class RightJPanel extends JPanel {
         add(intermediateEnemyLabel);
         add(bossEnemyLabel);
         add(radarLabel);
-        add(radarImageLabel);
     }
 
     // set方法

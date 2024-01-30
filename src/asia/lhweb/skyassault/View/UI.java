@@ -8,6 +8,7 @@ import javax.swing.*;
 public class UI extends JFrame {
 
     private LoginJFrame loginJFrame;
+    private RegisterFrame registerFrame;
     private GameJFrame gameJFrame;
     private PlaneController planeController;
 
@@ -15,6 +16,8 @@ public class UI extends JFrame {
         this.planeController = planeController;
         loginJFrame = new LoginJFrame(this.planeController);
         gameJFrame = new GameJFrame(this.planeController);
+        System.out.println(planeController);
+        registerFrame = new RegisterFrame(this.planeController);
     }
     public void endGame(){
         //关闭窗口会自动结束进程
@@ -41,5 +44,23 @@ public class UI extends JFrame {
 
     public void setPlaneController(PlaneController planeController) {
         this.planeController = planeController;
+    }
+
+    public RegisterFrame getRegisterFrame() {
+        return registerFrame;
+    }
+
+    public void setRegisterFrame(RegisterFrame registerFrame) {
+        this.registerFrame = registerFrame;
+    }
+
+    @Override
+    public String toString() {
+        return "UI{" +
+                "loginJFrame=" + loginJFrame +
+                ", registerFrame=" + registerFrame +
+                ", gameJFrame=" + gameJFrame +
+                ", planeController=" + planeController +
+                '}';
     }
 }

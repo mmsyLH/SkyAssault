@@ -1,6 +1,6 @@
 package asia.lhweb.skyassault.model.behavior;
 
-import asia.lhweb.skyassault.model.bean.FlyingObj;
+import asia.lhweb.skyassault.model.bean.fly.FlyingObj;
 
 import java.awt.*;
 

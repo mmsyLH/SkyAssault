@@ -2,6 +2,7 @@ package asia.lhweb.skyassault.model.bean;
 
 
 import asia.lhweb.skyassault.Util.ImageUtils;
+import asia.lhweb.skyassault.config.GameConfig;
 import asia.lhweb.skyassault.constant.GameConstant;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ import java.awt.*;
 public class BackGround {
     private int backX;
     private int backY;
-    private int backW=800;
+    private int backW=GameConstant.GAME_WINDOW_LEFT_WIDTH;
     private int backH=GameConstant.GAME_WINDOW_HEIGHT;
     private Image backImage;
     private int backSpeed;
@@ -22,7 +23,7 @@ public class BackGround {
     public BackGround() {
         this.backX =0;
         this.backY =0;
-        this.backImage= ImageUtils.getBGImage1();
+        this.backImage= GameConfig.getBackImage();
         this.backSpeed =5;
     }
     public void drawBackGround(Graphics g){

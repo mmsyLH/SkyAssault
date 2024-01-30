@@ -1,9 +1,10 @@
 package asia.lhweb.skyassault.controller.Listener;
 
 import asia.lhweb.skyassault.controller.PlaneController;
-import asia.lhweb.skyassault.model.bean.HeroPlane;
+import asia.lhweb.skyassault.model.bean.plane.HeroPlane;
 import asia.lhweb.skyassault.model.bean.Player;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -28,6 +29,11 @@ public class MyKeyListener implements KeyListener {
         heroPlaneLeft= player.getHeroPlaneList().get(1);
     }
 
+    /**
+     * 键按下
+     *
+     * @param e e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         heroPlaneLeft= player.getHeroPlaneList().get(1);
@@ -65,6 +71,15 @@ public class MyKeyListener implements KeyListener {
                 // 空格
                 System.out.println("按下了空格");
                 spacePressed = true;
+                break;
+            case KeyEvent.VK_U:
+                // U 开始游戏
+                // JOptionPane.showMessageDialog(planeController.getUi().getGameJFrame(),"123");
+                planeController.startGame();
+                break;
+            case KeyEvent.VK_P:
+                // P 暂停游戏
+                planeController.pauseGame();
                 break;
         }
     }

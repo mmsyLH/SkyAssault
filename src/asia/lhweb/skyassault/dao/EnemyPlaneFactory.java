@@ -1,6 +1,10 @@
 package asia.lhweb.skyassault.dao;
 
-import asia.lhweb.skyassault.model.bean.*;
+import asia.lhweb.skyassault.model.bean.fly.Bee;
+import asia.lhweb.skyassault.model.bean.fly.DoubleFirePower;
+import asia.lhweb.skyassault.model.bean.fly.FlyingObj;
+import asia.lhweb.skyassault.model.bean.fly.NuclearBomb;
+import asia.lhweb.skyassault.model.bean.plane.EnemyPlane;
 
 /**
  * 敌机工厂类

@@ -1,10 +1,16 @@
 package asia.lhweb.skyassault.View;
 
+import asia.lhweb.skyassault.Util.DataUtils;
+import asia.lhweb.skyassault.constant.ResLoginConstant;
+import asia.lhweb.skyassault.controller.Listener.LoginListener;
 import asia.lhweb.skyassault.controller.PlaneController;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 /**
  * @author :罗汉
@@ -20,44 +26,59 @@ public class LoginJPanel extends JPanel {
     private JTextField codeText;
     private JButton loginButton;
     private JButton codeButton;
+    private JButton goToRegisterButton;
 
     public LoginJPanel(PlaneController planeController) {
         setLayout(null);
-
-        loginLabel=new JLabel("登录");
-        loginLabel.setBounds(50,50,60,100);
-        add(loginLabel);
-
+        //设置监听器
+        LoginListener loginListener = new LoginListener(this, planeController);
         ////////////////////////////////
-        accLabel=new JLabel("账号");
-        accLabel.setBounds(110,175,80,50);
+        accLabel = new JLabel("账号");
+        accLabel.setBounds(50, 20, ResLoginConstant.JLABEL_X, ResLoginConstant.JLABEL_Y);
         add(accLabel);
-        accText=new JTextField();
-        accText.setBounds(170,180,150,40);
+        accText = new JTextField();
+        accText.setBounds(100, 20, ResLoginConstant.JLABEL_X, ResLoginConstant.JLABEL_Y);
         add(accText);
         ////////////////////////////////
-        passwordLabel=new JLabel("密码");
-        passwordLabel.setBounds(110,255,80,50);
+        passwordLabel = new JLabel("密码");
+        passwordLabel.setBounds(50, 75, ResLoginConstant.JLABEL_X, ResLoginConstant.JLABEL_Y);
         add(passwordLabel);
-        passwordText=new JTextField();
-        passwordText.setBounds(170,255,150,40);
+        passwordText = new JPasswordField();
+        passwordText.setBounds(100, 75, ResLoginConstant.JLABEL_X, ResLoginConstant.JLABEL_Y);
         add(passwordText);
         ///////////////////////////////
-        code=new JLabel("验证码");
-        code.setBounds(110,310,80,50);
+        code = new JLabel("验证码");
+        code.setBounds(50, 130, ResLoginConstant.JLABEL_X, ResLoginConstant.JLABEL_Y);
         add(code);
-        codeButton = new JButton("1234"); // 创建登录按钮
-        codeButton.setBounds(350, 310, 80, 50);
+        codeButton = new JButton(DataUtils.generateRandomCode()); // 使用随机生成的验证码
+        codeButton.setBounds(200, 130, ResLoginConstant.JLABEL_X / 2, ResLoginConstant.JLABEL_Y);
+        codeButton.setActionCommand("code"); // 设置按钮命令
+
         add(codeButton);
-        codeText=new JTextField();
-        codeText.setBounds(170,310,150,40);
+        codeText = new JTextField();
+        codeText.setBounds(100, 130, ResLoginConstant.JLABEL_X / 2, ResLoginConstant.JLABEL_Y);
         add(codeText);
         /////////////////////////////////
         loginButton = new JButton("登录"); // 创建登录按钮
         loginButton.setActionCommand("login"); // 设置按钮命令
-        loginButton.setBounds(170, 400, 150, 40);
+        loginButton.setBounds(100, 200, ResLoginConstant.JLABEL_X, 40);
+
         add(loginButton);
+
+        // 添加去注册按钮
+        goToRegisterButton = new JButton("去注册");
+        goToRegisterButton.setActionCommand("goToRegister");
+        goToRegisterButton.setBounds(100, 260, ResLoginConstant.JLABEL_X, 40);
+        add(goToRegisterButton);
+
+
+        //设置监听器
+        loginButton.addActionListener(loginListener);
+        codeButton.addActionListener(loginListener);
+        goToRegisterButton.addActionListener(loginListener);
+        setVisible(true);
     }
+
 
     public JLabel getLoginLabel() {
         return loginLabel;

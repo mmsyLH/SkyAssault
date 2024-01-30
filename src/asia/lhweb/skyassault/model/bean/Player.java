@@ -1,6 +1,8 @@
 package asia.lhweb.skyassault.model.bean;
 
 
+import asia.lhweb.skyassault.model.bean.plane.HeroPlane;
+
 import java.util.ArrayList;
 import java.util.List;
 

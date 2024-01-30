@@ -1,7 +1,7 @@
 package asia.lhweb.skyassault.Util;
 
 import asia.lhweb.skyassault.constant.GameConstant;
-import asia.lhweb.skyassault.model.bean.FlyingObj;
+import asia.lhweb.skyassault.model.bean.fly.FlyingObj;
 
 import java.awt.*;
 
@@ -16,10 +16,7 @@ public class BoomUtils extends FlyingObj {
      * 爆炸类型
      */
     private String expType;
-    /**
-     * 爆炸时间
-     */
-    private int expTime;
+    private int radarImageIndex;  // 用于记录索引
 
     public BoomUtils(int x, int y) {
         this(x, y, null);
@@ -31,7 +28,7 @@ public class BoomUtils extends FlyingObj {
         flyW = GameConstant.BOOM_W;
         flyH = GameConstant.BOOM_H;
         this.expType = expType;
-        expTime = 4;
+        this.radarImageIndex = 0;
     }
 
     @Override
@@ -49,70 +46,45 @@ public class BoomUtils extends FlyingObj {
      * @return boolean
      */
     public boolean explosive() {
+        Image[] radarImages;
         switch (expType) {
-            case GameConstant.ZIDANTO_ENEMYPLANE:
-                switch (expTime) {
-                    case 1:
-                        setFlyImage(ImageUtils.getPlaneBoomImage1());
-                        break;
-                    case 2:
-                        setFlyImage(ImageUtils.getPlaneBoomImage2());
-                        break;
-                    case 3:
-                        setFlyImage(ImageUtils.getPlaneBoomImage3());
-                        break;
-                    case 4:
-                        setFlyImage(ImageUtils.getPlaneBoomImage4());
-                        break;
-                    case 5:
-                        setFlyImage(ImageUtils.getPlaneBoomImage5());
-                        break;
-                }
-            case GameConstant.ZIDANTO_HEREOPLANE:
-                switch (expTime) {
-                    case 1:
-                        setFlyImage(ImageUtils.getPlaneBoomImage1());
-                        break;
-                    case 2:
-                        setFlyImage(ImageUtils.getPlaneBoomImage2());
-                        break;
-                    case 3:
-                        setFlyImage(ImageUtils.getPlaneBoomImage3());
-                        break;
-                    case 4:
-                        setFlyImage(ImageUtils.getPlaneBoomImage4());
-                        break;
-                    case 5:
-                        setFlyImage(ImageUtils.getPlaneBoomImage5());
-                        break;
-                }
+            case GameConstant.ZIDANTO_ENEMYPLANE://子弹击中敌机
+                radarImages = ImageUtils.getDefaultBoomImages();
+                if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
                 break;
-            case GameConstant.ENEMYPLANE_OVER:
-                switch (expTime) {
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        setFlyImage(ImageUtils.getBeeImage1());
-                        break;
-                }
+            case GameConstant.ENEMYPLANE_OVER://敌机被摧毁
+                radarImages = ImageUtils.getEnemyOverBooms();
+                if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
+                break;
+            case GameConstant.HEREOPLANE_OVER://英雄机被摧毁
+                radarImages = ImageUtils.getHeroOverBOOMS();
+                if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
                 break;
             default:
-                switch (expTime) {
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        setFlyImage(ImageUtils.getBeeImage1());
-                        break;
-                }
+                radarImages = ImageUtils.getDefaultBoomImages();
+                if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
                 break;
         }
-        expTime--;
-        if (expTime <= 0) return false;
-
         return true;
     }
+
+    /**
+     * 播放动画效果
+     *
+     * @param images 图片数组
+     * @return 如果动画播放完毕，返回 true；否则返回 false
+     */
+    private boolean boomAnimation(Image[] images) {
+        int arrayLength = images.length;
+        if (arrayLength >= 1 && radarImageIndex < arrayLength) {
+            setFlyImage(images[radarImageIndex]);
+            radarImageIndex++;
+            if (radarImageIndex >= arrayLength) {
+                return true; // 动画播放完毕
+            }
+        }
+        return false; // 动画未播放完毕
+    }
+
+
 }

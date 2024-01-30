@@ -1,9 +1,12 @@
 package asia.lhweb.skyassault.constant;
 
+import sun.net.www.content.audio.wav;
+
 /**
  * 游戏常数接口，定义了各种类型的参数。
  */
 public interface GameConstant {
+    String SALT="lh";
     /////////////////////////////////////////////////////////////游戏界面参数
     /**
      * 游戏名称
@@ -13,19 +16,73 @@ public interface GameConstant {
      * 游戏bg1
      */
     String GAME_BG1 = "images/bg/bg_0.jpg";
+    /**
+     * 游戏bg2
+     */
+    String GAME_BG2 = "images/bg/bg_2.jpg";
+    /**
+     * 游戏bgr
+     */
+    String GAME_BGR = "images/bg/back_of_about.jpg";
     ////////菜单类
+    /**
+     * 游戏开始
+     */
     String GAME_START = "start";
+    /**
+     * 游戏结束
+     */
     String GAME_END = "end";
+    /**
+     * 游戏暂停
+     */
     String GAME_PAUSE = "pause";
+    /**
+     * 自定义游戏
+     */
+    String GAME_CUSTOM = "custom";
+    /**
+     * 游戏操作
+     */
+    String GAME_OPERATE = "operate";
+    /**
+     * 关于游戏
+     */
+    String GAME_ABOUT = "about";
+    /**
+     * 游戏再次
+     */
+    String GAME_AGAIN = "again";
+    String GAME_CONTINUE = "continue";
     ////////////////////////////////////菜单栏
     /**
      * 菜单栏高度
      */
     int MENU_BAR_HEIGHT =30 ;
     String MENU_NAME = "菜单";
+    String MENU_NAME2 = "帮助";
     String MENU_START = "开始游戏";
-    String MENU_END = "结束游戏";
+    String MENU_END = "退出游戏";
     String MENU_PAUSE = "暂停游戏";
+    String MENU_CONTINUE = "继续游戏";
+    String MENU_AGAIN = "重新开始";
+    String MENU_CUSTOM = "自定义";
+    /**
+     * 菜单操作
+     */
+    String MENU_OPERATE = "操作信息";
+    /**
+     * 关于游戏
+     */
+    String MENU_ABOUT = "关于游戏";
+    /**
+     * 菜单设置
+     */
+    String MENU_SETTING = "设置";
+    /**
+     * 游戏设置
+     */
+    String GAME_SETTING = "setting";
 
     ///////
     /**
@@ -86,7 +143,6 @@ public interface GameConstant {
     String GUAN = "关";
     String MEI = "枚";
     String JIA = "架";
-
     /**
      * hero1
      *////////////////////////////////////////////////////////////飞机类别
@@ -104,19 +160,44 @@ public interface GameConstant {
      * hero1宽度
      */
     int Enemy_WIDTH =60;
-    /**
-     * hero1高度
-     */
+
     int Enemy_HEIGHT =60;
     /**
-     * 敌人plane1
+     * 敌人类型1 初级敌机
      */
-    String ENEMY_PLANE1 = "images/enemyplane/enemyPlane1_1_0.png";
+    int Enemy_TYPE1 =1;
+    /**
+     * 敌人类型2 中级敌机
+     */
+    int Enemy_TYPE2 =2;
+    /**
+     * 老板宽度
+     */
+    int BOSS_WIDTH =400;
+    /**
+     * 老板高度
+     */
+    int BOSS_HEIGHT =120;
+    /**
+     * 敌机类型1-初始敌机
+     */
+    String ENEMY_PLANE1LV1 = "images/enemyplane/airplane1 (3).png";
+    String ENEMY_PLANE1LV2 = "images/enemyplane/enemyPlane3_1_0.png";
+    String ENEMY_PLANE2LV1 = "images/enemyplane/airplane2 (3).png";
+    String ENEMY_PLANE2LV2 = "images/enemyplane/enemyPlane3_1_1.png";
+    String ENEMY_PLANE3LV1 = "images/enemyplane/airplane3 (3).png";
+    String ENEMY_PLANE3LV2 = "images/enemyplane/enemyPlane3_2_0.png";
+    String BOSS_PLANE1 = "images/enemyplane/boss/boss9.png";
+    String BOSS_PLANE2 = "images/enemyplane/boss/boss6.png";
+    String BOSS_PLANE3 = "images/enemyplane/boss/boss4r_0.png";
     ////////////////////////////////////////////////////////////奖励类型
     /**
      * 蜜蜂1
      */
     String BEE1 = "images/jiangli/bee.png";
+    String HERO_BULLET = "images/zidan/bullet (3).png";
+    String ENEMY_BULLET = "images/zidan/enemybullet.png";
+
     /**
      * 核弹图像
      */
@@ -138,9 +219,29 @@ public interface GameConstant {
 
     int ZIDAN_SPEED = 7;
     /**
+     * 子弹向上移动
+     */
+    int BULLET_MOVETYPE1=1;
+    /**
+     * 子弹向下移动
+     */
+    int BULLET_MOVETYPE0=0;
+    /**
+     * 子弹向左上移动
+     */
+    int BULLET_MOVETYPE2=2;
+    /**
+     * 子弹向右上移动
+     */
+    int BULLET_MOVETYPE3=3;
+    /**
      * 飞行默认速度
      *////////////////////////////////////////////////////////////////飞行物类别
     int FLY_DEFAULT_SPEED = 3;
+    /**
+     * 飞台速度
+     */
+    int FLY_BOSS_SPEED = 1;
     /**
      * defaule w
      */
@@ -156,42 +257,38 @@ public interface GameConstant {
      * 爆炸高度
      */
     int BOOM_H = 100;
-    String DEFAULT_BOOM1 = "images/boom/blast_0_1.png";
     /**
-     * 默认boom2
+     * 默认boom数组
      */
-    String DEFAULT_BOOM2 = "images/boom/blast_0_2.png";
+    String[] DEFAULT_BOOMS = {
+            "images/boom/blast_0_1.png",
+            "images/boom/blast_0_2.png",
+            "images/boom/blast_0_3.png",
+            "images/boom/blast_0_4.png",
+            "images/boom/blast_0_5.png"
+    };
+
     /**
-     * 默认boom3
+     * 敌机被击毁
      */
-    String DEFAULT_BOOM3 = "images/boom/blast_0_3.png";
+    String [] ENEMY_OVER_BOOMS ={
+            "images/boom/EnemyBoom/blast_2_3.png",
+            "images/boom/EnemyBoom/blast_2_4.png",
+            "images/boom/EnemyBoom/blast_2_5.png",
+            "images/boom/EnemyBoom/blast_2_6.png",
+    };
+
     /**
-     * 默认boom4
+     * 英雄机被击毁
      */
-    String DEFAULT_BOOM4 = "images/boom/blast_0_4.png";
-    /**
-     * 默认boom5
-     */
-    String DEFAULT_BOOM5 = "images/boom/blast_0_5.png";
-    //// 敌机被击毁
-    String ENEMY_OVER_BOOM1 = "images/boom/blast_0_1.png";
-    /**
-     * 默认boom2
-     */
-    String ENEMY_OVER_BOOM2 = "images/boom/blast_0_2.png";
-    /**
-     * 默认boom3
-     */
-    String ENEMY_OVER_BOOM3 = "images/boom/blast_0_3.png";
-    /**
-     * 默认boom4
-     */
-    String ENEMY_OVER_BOOM4 = "images/boom/blast_0_4.png";
-    /**
-     * 默认boom5
-     */
-    String ENEMY_OVER_BOOM5 = "images/boom/blast_0_5.png";
-    ////
+    String [] HERO_OVER_BOOMS ={
+            "images/boom/heroBoom/airplane2 (2).png",
+            "images/boom/heroBoom/bigairplane3.png",
+            "images/boom/heroBoom/bigairplane4.png",
+            "images/boom/heroBoom/bigairplane5.png",
+            "images/boom/heroBoom/bigairplane6.png",
+            "images/boom/heroBoom/bigairplane7.png",
+    };
 
     /**
      * 子弹打到敌机的爆炸
@@ -254,5 +351,40 @@ public interface GameConstant {
             "images/radar/29.png",
             "images/radar/30.png",
     };
+    /**
+     * 开火等级1
+     */
+    int FIRE_LEVEL1 = 1;
+    /**
+     * 开火等级2 三枚子弹
+     */
+    int FIRE_LEVEL2 = 2;
+    /**
+     * 开火等级3 子弹变成跟踪蛋
+     */
+    int FIRE_LEVEL3 = 3;
+    /////////////////////////////////////////////////////////////游戏音乐类
+    /**
+     * 音乐bg
+     */
+    String MUSIC_BG="music/战火.wav";
+    /**
+     * 音乐boss
+     */
+    String MUSIC_BOSS_BG="music/start.wav";
+    /**
+     * 添加生命
+     */
+    String MUSIC_ADD_LIFE="music/addLife.wav";
+    String MUSIC_FIRE="music/fire.wav";//开火
+    String MUSIC_ENEMY_BOOM="music/enemyBoom.wav";//敌机坠毁
+    String MUSIC_GAME_OVER="music/gameover.wav";//游戏结束
+    String MUSIC_BOSS_BOOM="music/mytankBoom.wav";//boss级坠毁
+    /**
+     * 音乐重生/吃到奖励物
+     */
+    String MUSIC_REBORN="music/reborn.wav";
+
+
 
 }

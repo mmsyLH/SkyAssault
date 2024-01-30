@@ -17,6 +17,7 @@ public class GameJFrame extends JFrame {
     private RightJPanel rightJPanel;
     private PlaneController planeController;
     private GameMenu gameMenu;
+
     public GameJFrame(PlaneController planeController) {
         this.planeController = planeController;
         setTitle(GameConstant.SKY_ASSAULT_NAME);
@@ -31,7 +32,7 @@ public class GameJFrame extends JFrame {
         gameJPanel.setPreferredSize(new Dimension(GameConstant.GAME_WINDOW_LEFT_WIDTH,0));
 
         //右侧布局
-        rightJPanel=new RightJPanel();
+        rightJPanel=new RightJPanel(planeController);
         rightJPanel.setPreferredSize(new Dimension(GameConstant.GAME_WINDOW_RIGHT_WIDTH,0));
         rightJPanel.setBackground(new Color(0xEEEEEE));
 
@@ -68,5 +69,13 @@ public class GameJFrame extends JFrame {
 
     public void setPlaneController(PlaneController planeController) {
         this.planeController = planeController;
+    }
+
+    public GameMenu getGameMenu() {
+        return gameMenu;
+    }
+
+    public void setGameMenu(GameMenu gameMenu) {
+        this.gameMenu = gameMenu;
     }
 }
