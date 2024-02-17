@@ -1,6 +1,7 @@
 package asia.lhweb.skyassault.model.bean;
 
 
+import asia.lhweb.skyassault.constant.GameConstant;
 import asia.lhweb.skyassault.model.bean.plane.HeroPlane;
 
 import java.util.ArrayList;
@@ -20,10 +21,9 @@ public class Player extends User {
 
     public Player() {
         HeroPlane heroPlane1 = new HeroPlane();
-        heroPlane1.setFlyX(0);
-        HeroPlane heroPlane2 = new HeroPlane();
+        heroPlane1.setFlyX(GameConstant.GAME_WINDOW_LEFT_WIDTH/4);
+        heroPlane1.setFlyY(GameConstant.GAME_WINDOW_LEFT_HEIGHT/4*3);
         heroPlaneList.add(heroPlane1);
-        heroPlaneList.add(heroPlane2);
     }
 
     public String getPlayerName() {

@@ -1,10 +1,17 @@
 package asia.lhweb.skyassault.model.bean.fly;
 
+
+import asia.lhweb.skyassault.Util.ImageRotationUtils;
 import asia.lhweb.skyassault.Util.ImageUtils;
 import asia.lhweb.skyassault.constant.GameConstant;
+import asia.lhweb.skyassault.controller.PlaneController;
 import asia.lhweb.skyassault.model.bean.fly.FlyingObj;
+import asia.lhweb.skyassault.model.bean.plane.BossPlane;
+import asia.lhweb.skyassault.model.bean.plane.EnemyPlane;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  * @author :罗汉
@@ -45,7 +52,26 @@ public class Bullet extends FlyingObj {
     @Override
     public void move() {
         if (track) {// 自动跟踪的子弹
+            List<FlyingObj> flyingObjs = PlaneController.getInstance().getflyingObjectList();
+            for (FlyingObj flyingObj : flyingObjs) {
+                if (flyingObj instanceof EnemyPlane||flyingObj instanceof BossPlane){//自动追踪的对象
+                    int flyX1 = flyingObj.getFlyX();
+                    int flyY1 = flyingObj.getFlyY();
+                    // 计算子弹朝向敌机的方向
+                    double deltaX = flyX1 - flyX;
+                    double deltaY = flyY1 - flyY;
+                    double angle = Math.atan2(deltaY, deltaX);
+                    double speedX = Math.cos(angle) * flySpeed;
+                    double speedY = Math.sin(angle) * flySpeed;
+                    flyX += speedX;
+                    flyY += speedY;
 
+                    // 使用 ImageRotationUtils 工具类旋转子弹图像
+                    // flyImage = ImageRotationUtils.rotateImage(this, angle);
+
+                    break;
+                }
+            }
         } else {// 非自动跟踪子弹
             if (bulletMoveType == GameConstant.BULLET_MOVETYPE1) { // 向上移动
                 flyY -= GameConstant.FLY_DEFAULT_SPEED + flySpeed;

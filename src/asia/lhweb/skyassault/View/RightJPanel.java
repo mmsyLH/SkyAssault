@@ -120,8 +120,8 @@ public class RightJPanel extends JPanel {
                 int enemyPlaneX = flyingObj.getFlyX();
                 int enemyPlaneY = flyingObj.getFlyY();
                 // 获取游戏机的x,y 绘制敌机红点
-                int heroPlaneX = planeController.getHeroPlaneList().get(GameConfig.getGameController()).getFlyX();
-                int heroPlaneY = planeController.getHeroPlaneList().get(GameConfig.getGameController()).getFlyY();
+                int heroPlaneX = planeController.getHeroPlaneList().get(0).getFlyX();
+                int heroPlaneY = planeController.getHeroPlaneList().get(0).getFlyY();
                 // 计算红点位置
                 int radarX = DataUtils.radarX(enemyPlaneX, heroPlaneX);
                 int radarY = DataUtils.radarY(enemyPlaneY, heroPlaneY);

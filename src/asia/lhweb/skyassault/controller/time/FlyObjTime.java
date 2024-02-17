@@ -1,6 +1,7 @@
 package asia.lhweb.skyassault.controller.time;
 
 import asia.lhweb.skyassault.Util.DataUtils;
+import asia.lhweb.skyassault.Util.DialogUtils;
 import asia.lhweb.skyassault.Util.MusicUtils;
 import asia.lhweb.skyassault.controller.PlaneController;
 import asia.lhweb.skyassault.model.bean.fly.Bullet;
@@ -50,30 +51,29 @@ public class FlyObjTime {
             flyingObjs.forEach(FlyingObj::move);
 
             if (bulletCounter % bulletDelay == 0) {// 我方飞机开火
-                planeController.myPlaneFireRight();
+                planeController.myPlaneFire();
                 MusicUtils.startFireMusicThread();
             }
-            if (bulletCounter % (5 * bulletDelay) == 0) {// 敌机开火
+            if (bulletCounter % (3 * bulletDelay) == 0) {// 敌机开火
                 planeController.enemyFire();
             }
-            if (bulletCounter % (10 * bulletDelay) == 0) {// boss开火
+            if (bulletCounter % (5 * bulletDelay) == 0) {// boss开火
                 planeController.bossFire();
             }
 
             // 检查我方飞机是否被击中
             if (planeController.checkMyPlaneHit()) {
                 MusicUtils.startEnemyMusicThread();
+
             }
 
             // 检查敌机是否被击中
             if (planeController.checkEnemyHit()) {
-
                 MusicUtils.startEnemyMusicThread();
             }
 
             // 检查boss是否被击中
             if (planeController.checkBossHit()) {
-
                 MusicUtils.startEnemyMusicThread();
             }
 
@@ -86,16 +86,22 @@ public class FlyObjTime {
             // 检查我方子弹与地方子弹的碰撞
             if (planeController.checkMyBulletHitEnemyBullet()) {
                 // todo 播放碰撞子弹的音效
-
             }
+
+            //检查敌机是否越过防线
+            planeController.checkEnemyOverPassY();
 
             // 绘制爆炸效果
             planeController.processExplosions();
 
             // 移动玩家飞机的子弹
             DataUtils.drawBullet(myPlaneBulletList, cleanList);
+
             // 移动敌机飞机的子弹
             DataUtils.drawBullet(enemyPlaneBulletList, cleanList);
+
+            // 移动Boss飞机的子弹
+            DataUtils.drawBullet(planeController.getBossBulletList(), cleanList);
 
 
             // 删除越界的子弹

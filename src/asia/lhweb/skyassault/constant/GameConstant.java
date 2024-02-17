@@ -30,6 +30,10 @@ public interface GameConstant {
     String GAME_BG_PAUSE = "images/bg/pause.png";
     String GAME_BG_START = "images/bg/start.png";
     /**
+     * 游戏胜利
+     */
+    String BG_VICTORY_IMAGE = "images/bg/start.png";
+    /**
      * 游戏bgr
      */
     String GAME_BGR = "images/bg/back_of_about.jpg";
@@ -206,6 +210,8 @@ public interface GameConstant {
     String BEE1 = "images/jiangli/bee.png";
     String HERO_BULLET = "images/zidan/bullet (3).png";
     String ENEMY_BULLET = "images/zidan/enemybullet.png";
+    String ZHUIZHONG_BULLET1 = "images/zidan/assisent1_4.png";
+    String ZHUIZHONG_BULLET2 = "images/zidan/Bomb3.png";
 
     /**
      * 核弹图像
@@ -298,6 +304,16 @@ public interface GameConstant {
             "images/boom/heroBoom/bigairplane6.png",
             "images/boom/heroBoom/bigairplane7.png",
     };
+    String [] NUCLEAR_OVER_BOOMS ={
+        "images/boom/nuclearBoom/1.png",
+        "images/boom/nuclearBoom/2.png",
+        "images/boom/nuclearBoom/3.png",
+        "images/boom/nuclearBoom/4.png",
+        "images/boom/nuclearBoom/5.png",
+        "images/boom/nuclearBoom/6.png",
+        "images/boom/nuclearBoom/7.png",
+    };
+
 
     /**
      * 子弹打到敌机的爆炸
@@ -395,5 +411,8 @@ public interface GameConstant {
     String MUSIC_REBORN="music/reborn.wav";
 
 
-
+    /**
+     * 核弹爆炸
+     */
+    String NUCLEAR_BOOM = "NUCLEAR_BOOM";
 }

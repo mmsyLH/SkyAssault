@@ -32,12 +32,15 @@ public class BackGroundTime {
     public ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BackGround backGround1 = planeController.getBackGround1();
-            backGround1.setBackImage(GameConfig.getBackImage());
-            backGround1.backGroundMove();
-            BackGround backGround2 = planeController.getBackGround2();
-            backGround2.setBackImage(GameConfig.getBackImage());
-            backGround2.backGroundMove();
+            //绘制上下拉的背景
+            if (GameConfig.getGameState()==1){
+                BackGround backGround1 = planeController.getBackGround1();
+                backGround1.setBackImage(GameConfig.getBackImage());
+                backGround1.backGroundMove();
+                BackGround backGround2 = planeController.getBackGround2();
+                backGround2.setBackImage(GameConfig.getBackImage());
+                backGround2.backGroundMove();
+            }
             planeController.getUi().getGameJFrame().repaint();
         }
     };

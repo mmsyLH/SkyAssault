@@ -1,5 +1,6 @@
 package asia.lhweb.skyassault.Util;
 
+import asia.lhweb.skyassault.View.GameJFrame;
 import asia.lhweb.skyassault.config.GameConfig;
 import asia.lhweb.skyassault.controller.PlaneController;
 import asia.lhweb.skyassault.model.bean.Player;
@@ -99,6 +100,7 @@ public class DialogUtils {
         dialog.setVisible(true);
     }
 
+
     /**
      * 显示自定义关卡选择对话框
      */
@@ -183,7 +185,8 @@ public class DialogUtils {
                     GameConfig.initLv(levelNumber);
                 }
 
-                // PlaneController.getInstance().init();
+                PlaneController.getInstance().init();
+                PlaneController.getInstance().startGame();
                 jd.dispose();
             }
         });
@@ -198,6 +201,7 @@ public class DialogUtils {
         // 设置对话框可见
         jd.setVisible(true);
     }
+
 
     /**
      * 显示暂停游戏对话框
@@ -218,7 +222,7 @@ public class DialogUtils {
         backgroundLabel.setBackground(Color.WHITE); // 设置背景色为白色
 
         // 提示文本
-        JLabel messageLabel = new JLabel("游戏已暂停");
+        JLabel messageLabel = new JLabel("");
         messageLabel.setHorizontalAlignment(JLabel.CENTER);
         backgroundLabel.add(messageLabel, BorderLayout.CENTER);
 
@@ -226,6 +230,8 @@ public class DialogUtils {
         JButton resumeButton = new JButton("继续游戏");
         resumeButton.addActionListener(e -> {
             // 继续游戏逻辑
+
+            PlaneController.getInstance().getUi().getGameJFrame().getGameMenu().setMenuItemsEnabled(false, true, false, false, false, true);
             pauseDialog.dispose(); // 关闭对话框
             PlaneController.getInstance().resumeGame(); // 继续游戏
         });
@@ -239,5 +245,6 @@ public class DialogUtils {
         pauseDialog.setLocationRelativeTo(parentFrame);
         pauseDialog.setVisible(true);
     }
+
 
 }

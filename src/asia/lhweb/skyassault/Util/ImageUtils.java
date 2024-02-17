@@ -17,10 +17,13 @@ public class ImageUtils {
     public static Image zhuTi;// 背景2
     public static Image bgStartImage;// 游戏就绪背景
     public static Image bgPauseImage;// 游戏就绪背景
+    public static Image bgVictoryImage;// 游戏胜利背景
     public static Image planeImage1;// 飞机图像 开火
     public static Image planeImage2;// 飞机图像 不开火
     public static Image heroBullet;//子弹1
     public static Image enemyBullet;//子弹2
+    public static Image zhuiZhongBullet1;//子弹3 自动跟踪
+    public static Image zhuiZhongBullet2;//子弹4 自动跟踪
     public static Image enemyPlaneImage1Lv1;// 敌机图像
     public static Image enemyPlaneImage1Lv2;// 敌机图像
     public static Image enemyPlaneImage2Lv1;// 敌机图像
@@ -37,6 +40,7 @@ public class ImageUtils {
     public static Image[] defaultBoomImages;// 默认爆炸图像数组
     public static Image[] enemyOverBooms;// 敌机摧毁爆炸图像数组
     public static Image[] heroOverBOOMS;// 英雄机被摧毁爆炸图像数组
+    public static Image[] nuclearBooms;// 英雄机被摧毁爆炸图像数组
     public static Image[] radarImages;// 雷达图数组
 
     public ImageUtils() {
@@ -48,6 +52,7 @@ public class ImageUtils {
         bgImage2 = new ImageIcon(GameConstant.GAME_BG2).getImage();
         bgPauseImage = new ImageIcon(GameConstant.GAME_BG_PAUSE).getImage();
         bgStartImage = new ImageIcon(GameConstant.GAME_BG_START).getImage();
+        bgVictoryImage = new ImageIcon(GameConstant.BG_VICTORY_IMAGE).getImage();
         zhuTi = new ImageIcon(GameConstant.ZHU_TI).getImage();
 
         // 初始化飞机图像
@@ -66,6 +71,8 @@ public class ImageUtils {
         //初始化子弹
         heroBullet=new ImageIcon(GameConstant.HERO_BULLET).getImage();
         enemyBullet=new ImageIcon(GameConstant.ENEMY_BULLET).getImage();
+        zhuiZhongBullet1=new ImageIcon(GameConstant.ZHUIZHONG_BULLET1).getImage();
+        zhuiZhongBullet2=new ImageIcon(GameConstant.ZHUIZHONG_BULLET2).getImage();
         // 初始化Boss飞机图像
         bossPlaneImage1 = new ImageIcon(GameConstant.BOSS_PLANE1).getImage();
         bossPlaneImage2 = new ImageIcon(GameConstant.BOSS_PLANE2).getImage();
@@ -88,7 +95,8 @@ public class ImageUtils {
         // 初始化英雄机坠毁数组
         heroOverBOOMS = initBoomImages(GameConstant.HERO_OVER_BOOMS);
 
-
+        //初始化核弹爆炸数组
+        nuclearBooms = initBoomImages(GameConstant.NUCLEAR_OVER_BOOMS);
     }
 
     /**
@@ -274,5 +282,21 @@ public class ImageUtils {
 
     public static Image getZhuTi() {
         return zhuTi;
+    }
+
+    public static Image getZhuiZhongBullet1() {
+        return zhuiZhongBullet1;
+    }
+
+    public static Image getZhuiZhongBullet2() {
+        return zhuiZhongBullet2;
+    }
+
+    public static Image[] getNuclearBooms() {
+        return nuclearBooms;
+    }
+
+    public static Image getBgVictoryImage() {
+        return bgVictoryImage;
     }
 }

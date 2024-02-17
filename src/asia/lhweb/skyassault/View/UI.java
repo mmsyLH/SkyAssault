@@ -18,7 +18,6 @@ public class UI extends JFrame {
         this.planeController = planeController;
         loginJFrame = new LoginJFrame(this.planeController);
         gameJFrame = new GameJFrame(this.planeController);
-        System.out.println(planeController);
         registerFrame = new RegisterFrame(this.planeController);
 
     }

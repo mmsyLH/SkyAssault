@@ -7,11 +7,11 @@ import asia.lhweb.skyassault.model.bean.fly.FlyingObj;
 import java.awt.*;
 
 /**
- * 核弹
+ * 核弹NuclearBomb奖励类
  *
  * @author 罗汉
  * @date 2024/01/26
- */// NuclearBomb奖励类
+ */
  public  class NuclearBomb extends FlyingObj {
     private boolean movingRight = true; // 标记Z字形移动方向
     public NuclearBomb(int x, int y) {

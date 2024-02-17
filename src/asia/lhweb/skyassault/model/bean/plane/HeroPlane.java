@@ -17,6 +17,7 @@ public class HeroPlane extends Plane {
 
     private int fireLevel;;
     public HeroPlane() {
+        flyType=GameConfig.getGameController();//0鼠标 1键盘
         flySpeed= GameConfig.getHeroSpeed();
         init(GameConfig.getHeroHealth(), Color.green);
         fireLevel=GameConstant.FIRE_LEVEL1;
@@ -25,8 +26,7 @@ public class HeroPlane extends Plane {
         flyName = "英雄飞机";
         flyImage= ImageUtils.getMyPlaneImage1();
     }
-
-
+    
     @Override
     public void move() {
 

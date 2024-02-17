@@ -17,6 +17,7 @@ public class BoomUtils extends FlyingObj {
      */
     private String expType;
     private int radarImageIndex;  // 用于记录索引
+    private Image[] radarImages;
 
     public BoomUtils(int x, int y) {
         this(x, y, null);
@@ -30,10 +31,17 @@ public class BoomUtils extends FlyingObj {
         this.expType = expType;
         this.radarImageIndex = 0;
     }
-
+    public BoomUtils(int x, int y, int w, int h,String expType) {
+        flyX = x;
+        flyY = y;
+        flyW = w;
+        flyH = h;
+        this.expType = expType;
+        this.radarImageIndex = 0;
+    }
     @Override
     public void drawFlyer(Graphics g) {
-        g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
+        g.drawImage(flyImage, flyX, flyY, flyW, flyH, null);
     }
 
     @Override
@@ -46,18 +54,22 @@ public class BoomUtils extends FlyingObj {
      * @return boolean
      */
     public boolean explosive() {
-        Image[] radarImages;
+
         switch (expType) {
-            case GameConstant.ZIDANTO_ENEMYPLANE://子弹击中敌机
+            case GameConstant.ZIDANTO_ENEMYPLANE:// 子弹击中敌机
                 radarImages = ImageUtils.getDefaultBoomImages();
                 if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
                 break;
-            case GameConstant.ENEMYPLANE_OVER://敌机被摧毁
+            case GameConstant.ENEMYPLANE_OVER:// 敌机被摧毁
                 radarImages = ImageUtils.getEnemyOverBooms();
                 if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
                 break;
-            case GameConstant.HEREOPLANE_OVER://英雄机被摧毁
+            case GameConstant.HEREOPLANE_OVER:// 英雄机被摧毁
                 radarImages = ImageUtils.getHeroOverBOOMS();
+                if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
+                break;
+            case GameConstant.NUCLEAR_BOOM:// 核弹爆炸
+                radarImages = ImageUtils.getNuclearBooms();
                 if (boomAnimation(radarImages)) return false;  // 当索引超过数组长度时，表示爆炸结束
                 break;
             default:
@@ -86,5 +98,11 @@ public class BoomUtils extends FlyingObj {
         return false; // 动画未播放完毕
     }
 
+    /**
+     * 设置爆炸图像尺寸 如果不调用就默认使用原图片大小
+     */
+    private void setImageDimensions() {
+
+    }
 
 }

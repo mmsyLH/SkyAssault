@@ -19,8 +19,8 @@ import java.util.List;
  * @date 2024/1/29
  */
 public class GameConfig {
-    private static int gameState = 0;// 0就绪状态 1开始游戏状态
-    private static int gameController = 0;// 游戏操作方式 0鼠标 1键盘
+    private static int gameState = 0;// 0就绪状态 1运行 2游戏胜利
+    private static int gameController = -1;// 游戏操作方式 0鼠标 1键盘
     private static int enemyPlanes = 0;//敌机数量
     private static int heroSpeed;// 英雄机飞行速度
     private static int enemySpeed;// 英雄机飞行速度
@@ -314,20 +314,36 @@ public class GameConfig {
     }
 
     /**
+     * 设置游戏控制器
      * 设置游戏控制器 0鼠标 1键盘
      *
-     * @param gameController 游戏控制器
+     * @param gameControllernum
      */
-    public static void setGameController(int gameController) {
-        GameConfig.gameController = gameController;
+    public static void setGameController(int gameControllernum) {
+        gameController=gameControllernum;
+        // 根据游戏操作方式来设置键盘和鼠标监听器的控制状态
+        if (gameController == 0) {
+            // 鼠标控制，禁用键盘监听器，启用鼠标监听器
+            PlaneController.getInstance().getUi().getGameJFrame().getGameJPanel().getMyKeyListener().setKeyboardControlEnabled(false);
+            PlaneController.getInstance().getUi().getGameJFrame().getGameJPanel().getMyMouseMotionListener().setMouseControlEnabled(true);
+        } else if (gameController == 1){
+            // 键盘控制，启用键盘监听器，禁用鼠标监听器
+            PlaneController.getInstance().getUi().getGameJFrame().getGameJPanel().getMyKeyListener().setKeyboardControlEnabled(true);
+            PlaneController.getInstance().getUi().getGameJFrame().getGameJPanel().getMyMouseMotionListener().setMouseControlEnabled(false);
+        }
     }
 
+    /**
+     * 获取游戏状态 // 0就绪状态 1运行 2游戏结束 3游戏胜利
+     *
+     * @return int
+     */
     public static int getGameState() {
         return gameState;
     }
 
     /**
-     * 设置游戏状态 0就绪 1开始
+     * 设置游戏状态 0就绪 1开始  2游戏结束 3游戏胜利
      *
      * @param gameState 游戏状态
      */

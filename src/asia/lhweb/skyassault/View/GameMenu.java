@@ -71,10 +71,10 @@ public class GameMenu extends JMenuBar {
         aboutItem.addActionListener(gameMenuActionListener);
         helpMenu.add(aboutItem);
         //设置
-        JMenuItem settingItem = new JMenuItem(GameConstant.MENU_SETTING);
-        settingItem.setActionCommand(GameConstant.GAME_SETTING);
-        settingItem.addActionListener(gameMenuActionListener);
-        helpMenu.add(settingItem);
+        // JMenuItem settingItem = new JMenuItem(GameConstant.MENU_SETTING);
+        // settingItem.setActionCommand(GameConstant.GAME_SETTING);
+        // settingItem.addActionListener(gameMenuActionListener);
+        // helpMenu.add(settingItem);
 
         JMenuItem top3Item = new JMenuItem("排行榜");
         top3Item.setActionCommand("top");

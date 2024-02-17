@@ -15,18 +15,19 @@ import java.awt.event.KeyListener;
  * @date 2024/01/29
  */
 public class MyKeyListener implements KeyListener {
-
     private PlaneController planeController;
     private Player player;
     private HeroPlane heroPlaneLeft;
     private boolean spacePressed;//监听空格是否持续按下
+    private boolean keyboardControlEnabled = true; // 标识是否允许键盘控制
+
     public MyKeyListener() {
     }
 
     public MyKeyListener(PlaneController planeController) {
         this.planeController = planeController;
         player = planeController.getPlayer();
-        heroPlaneLeft= player.getHeroPlaneList().get(1);
+        heroPlaneLeft= player.getHeroPlaneList().get(0);
     }
 
     /**
@@ -36,45 +37,40 @@ public class MyKeyListener implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        heroPlaneLeft= player.getHeroPlaneList().get(1);
+        if (!keyboardControlEnabled) return; // 如果禁用键盘控制，则直接返回
+        heroPlaneLeft= player.getHeroPlaneList().get(0);
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 // 上
-                // System.out.println("移动前"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 heroPlaneLeft.moveUp();
-                // System.out.println("移动后"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 // 下
-                // System.out.println("移动前"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 heroPlaneLeft.moveDown();
-                // System.out.println("移动后"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 // 左
-                // System.out.println("移动前"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 heroPlaneLeft.moveLeft();
-                // System.out.println("移动后"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 // 右
-                // System.out.println("移动前"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 heroPlaneLeft.moveRight();
-                // System.out.println("移动后"+heroPlaneLeft.getFlyX()+"  "+heroPlaneLeft.getFlyY());
                 break;
             case KeyEvent.VK_SPACE:
                 // 空格
-                System.out.println("按下了空格");
                 spacePressed = true;
+                break;
+            case KeyEvent.VK_H:
+                // H 发射核弹
+                planeController.launchNuclearBomb();
                 break;
             case KeyEvent.VK_U:
                 // U 开始游戏
-                // JOptionPane.showMessageDialog(planeController.getUi().getGameJFrame(),"123");
                 planeController.startGame();
                 break;
             case KeyEvent.VK_P:
@@ -96,7 +92,14 @@ public class MyKeyListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
+    /**
+     * 设置键盘控制启用
+     *
+     * @param enabled 启用
+     */
+    public void setKeyboardControlEnabled(boolean enabled) {
+        this.keyboardControlEnabled = enabled;
+    }
 }

@@ -17,6 +17,7 @@ import asia.lhweb.skyassault.model.bean.fly.*;
 import asia.lhweb.skyassault.model.bean.plane.BossPlane;
 import asia.lhweb.skyassault.model.bean.plane.EnemyPlane;
 import asia.lhweb.skyassault.model.bean.plane.HeroPlane;
+import asia.lhweb.skyassault.service.UserService;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class PlaneController {
     private List<FlyingObj> boomObjectList = new ArrayList<>(); // 存储爆炸效果
     private List<Bullet> myPlaneBulletList = new ArrayList<>();// 英雄飞机子弹
     private List<Bullet> enemyPlaneBulletList = new ArrayList<>();// 敌机子弹
-    private List<Bullet> bossBulletList = new ArrayList<>();// 敌机子弹
+    private List<Bullet> bossBulletList = new ArrayList<>();// boss子弹
     private List<FlyingObj> cleanList = new ArrayList<>();// 敌机子弹销毁池
 
     private PlaneController() {
@@ -70,6 +71,9 @@ public class PlaneController {
         backGroundTime = new BackGroundTime(this);
         flyObjTime = new FlyObjTime(this);
         ui = new UI(this);
+        getUi().getGameJFrame().getGameJPanel().setListener();// 开启监听器
+        // 设置菜单的禁用
+        ui.getGameJFrame().getGameMenu().setMenuItemsEnabled(true, false, false, false, true, true);
         rightJPanel = ui.getGameJFrame().getRightJPanel();// 右侧信息面板
 
     }
@@ -99,16 +103,42 @@ public class PlaneController {
         bossBulletList.clear();
         cleanList.clear();
     }
+
     /**
      * 开始游戏
      */
     public void startGame() {
-        System.out.println("开始游戏执行了1次");
-        // todo 清理屏幕
+        // 清理屏幕
+        clear();
+        // 复位右侧面板数据
+        getUi().getGameJFrame().getRightJPanel().resetPanelData();
         GameConfig.setGameState(1);
         generateRandomFlyingObject();// 初始化随机生成物
         setAllowMovement(true);// 设置鼠标是否可以点击
-        getUi().getGameJFrame().getGameJPanel().setListener();// 开启监听器
+
+        backGroundTime.startTimer();// 开启背景定时器
+        flyObjTime.startTimer();// 开启飞行物定时器
+        MusicUtils.getBgMusicThread().setStop(false);
+
+        // 初始化右侧面板数据
+        GameConfig.startGame(this);
+    }
+
+    /**
+     * 切换关卡
+     */
+    public void startGameLv() {
+        clear();
+        GameConfig.setGameState(1);
+        //设置右侧面板数据
+        rightJPanel.setEnemyPassedNums(0);
+        rightJPanel.setBossEnemyNums(0);
+        rightJPanel.setBasicEnemyNums(0);
+        rightJPanel.setIntermediateEnemyNums(0);
+
+        generateRandomFlyingObject();// 初始化随机生成物
+        setAllowMovement(true);// 设置鼠标是否可以点击
+
         backGroundTime.startTimer();// 开启背景定时器
         flyObjTime.startTimer();// 开启飞行物定时器
         MusicUtils.getBgMusicThread().setStop(false);
@@ -135,9 +165,9 @@ public class PlaneController {
      * 重新开始游戏
      */
     public void restartGame() {
-        //清理数据
+        // 清理数据
         clear();
-        //复位右侧面板数据
+        // 复位右侧面板数据
         getUi().getGameJFrame().getRightJPanel().resetPanelData();
 
         // 重新初始化游戏状态和数据
@@ -158,7 +188,7 @@ public class PlaneController {
      */
     public void pauseGame() {
         MusicUtils.getBgMusicThread().setStop(true);// 关闭音乐
-        backGroundTime.pauseTimer();
+        GameConfig.setGameState(0);
         flyObjTime.pauseTimer();
     }
 
@@ -166,16 +196,27 @@ public class PlaneController {
      * 结束游戏
      */
     public void endGame() {
+        MusicUtils.getBgMusicThread().setStop(true);// 关闭音乐
+        GameConfig.setGameState(2);
         backGroundTime.stopTimer();
         flyObjTime.stopTimer();
         getUi().endGame();
     }
 
+
+    /**
+     * 游戏胜利
+     */
+    public void victoryGame(){
+        MusicUtils.getBgMusicThread().setStop(true);// 关闭音乐
+        GameConfig.setGameState(3);
+        backGroundTime.stopTimer();
+        flyObjTime.stopTimer();
+    }
     /**
      * 初始化生成随机飞行物
      */
     public void generateRandomFlyingObject() {
-        System.out.println("生成了随机生成物");
         double random;
         FlyingObj flyingObj;
         for (int i = 0; i < GameConfig.getEnemyPlanes(); i++) {
@@ -206,16 +247,9 @@ public class PlaneController {
     }
 
     /**
-     * 玩家飞机发射子弹-键盘玩家
+     * 玩家飞机发射子弹
      */
-    public void myPlaneFireLeft() {
-        myPlaneBulletList.add(new Bullet(player.getHeroPlaneList().get(1).getFlyX() + player.getHeroPlaneList().get(1).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(1).getFlyY()));
-    }
-
-    /**
-     * 玩家飞机发射子弹-鼠标玩家
-     */
-    public void myPlaneFireRight() {
+    public void myPlaneFire() {
         if (player.getHeroPlaneList().get(0).getFireLevel() == GameConstant.FIRE_LEVEL1) {// 发送一枚子弹 在飞机的中心 飞机x+ w/2 - 子弹/2 这句是中心
             Bullet bullet = new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(0).getFlyY());
             bullet.setFlyImage(ImageUtils.getHeroBullet());
@@ -236,13 +270,15 @@ public class PlaneController {
             Bullet bulletLeft = new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 - GameConstant.ZIDAN_W * 2, player.getHeroPlaneList().get(0).getFlyY());
             bulletLeft.setBulletMoveType(GameConstant.BULLET_MOVETYPE2);
             bulletLeft.setTrack(true);
-            bulletLeft.setFlyImage(ImageUtils.getHeroBullet());
+            bulletLeft.setFlySpeed((int) (bulletLeft.getFlySpeed() * 1.5));
+            bulletLeft.setFlyImage(ImageUtils.getZhuiZhongBullet1());
             Bullet bullet = new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(0).getFlyY());
-            bullet.setFlyImage(ImageUtils.getHeroBullet());
+            bullet.setFlyImage(ImageUtils.getZhuiZhongBullet2());
             Bullet bulletRight = new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 + GameConstant.ZIDAN_W, player.getHeroPlaneList().get(0).getFlyY());
             bulletRight.setBulletMoveType(GameConstant.BULLET_MOVETYPE3);
             bulletRight.setTrack(true);
-            bulletRight.setFlyImage(ImageUtils.getHeroBullet());
+            bulletRight.setFlySpeed((int) (bulletRight.getFlySpeed() * 1.5));
+            bulletRight.setFlyImage(ImageUtils.getZhuiZhongBullet1());
             myPlaneBulletList.add(bullet);
             myPlaneBulletList.add(bulletLeft);
             myPlaneBulletList.add(bulletRight);
@@ -269,15 +305,66 @@ public class PlaneController {
      * boss开火
      */
     public void bossFire() {
-        bossBulletList.add(new Bullet(player.getHeroPlaneList().get(0).getFlyX() + player.getHeroPlaneList().get(0).getFlyW() / 2 - GameConstant.ZIDAN_W / 2, player.getHeroPlaneList().get(0).getFlyY()));
+        //boss飞机发射子弹
+        Bullet bullet = new Bullet();
+        for (FlyingObj flyingObj : flyingObjectList) {
+            if (flyingObj instanceof BossPlane) {
+                BossPlane bossPlane = (BossPlane) flyingObj;
+                bullet.setFlyW((int) (bullet.getFlyW()*1.5));
+                bullet.setFlyH((int) (bullet.getFlyH()*1.5));
+                bullet = new Bullet(bossPlane.getFlyX() + bossPlane.getFlyW() / 2 + GameConstant.ZIDAN_W / 2, bossPlane.getFlyY() + bossPlane.getFlyH());
+                bullet.setBulletMoveType(GameConstant.BULLET_MOVETYPE0);// 设置向下移动
+                bossBulletList.add(bullet);
+            }
+        }
     }
+
+    /**
+     * 发射核弹
+     */
+    public void launchNuclearBomb() {
+        // 清理当前屏幕中的在范围内的初级敌机
+        Iterator<FlyingObj> iterator = flyingObjectList.iterator();
+        while (iterator.hasNext()) {
+            FlyingObj flyingObj = iterator.next();
+            if (flyingObj instanceof EnemyPlane &&
+                    flyingObj.getFlyType() == 1 &&
+                    (flyingObj.getFlyY() >= (-flyingObj.getFlyH()) &&
+                            flyingObj.getFlyY() <= (GameConstant.GAME_WINDOW_LEFT_HEIGHT)
+                    )
+            ) {
+                cleanList.add(flyingObj);
+                iterator.remove();
+            }
+        }
+
+        // 清理在屏幕范围内的全部子弹
+        cleanList.addAll(myPlaneBulletList);
+        cleanList.addAll(enemyPlaneBulletList);
+
+
+        int nums = 0;
+        for (FlyingObj flyingObj : flyingObjectList) {
+            if (flyingObj instanceof EnemyPlane) {
+                nums++;
+            }
+        }
+
+        System.out.println("当前数量" + rightJPanel.getBasicEnemyNums());
+        rightJPanel.setBasicEnemyNums(nums);
+        // 播放爆炸效果和音效
+        BoomUtils explosion = new BoomUtils(GameConstant.GAME_WINDOW_LEFT_WIDTH / 10, 0, GameConstant.GAME_WINDOW_LEFT_WIDTH, GameConstant.GAME_WINDOW_LEFT_HEIGHT, GameConstant.NUCLEAR_BOOM);
+        boomObjectList.add(explosion);
+        // MusicUtils.startExplosionSoundThread();
+    }
+
 
     /**
      * 获取随机的 X 坐标
      */
     private int getRandomX() {
         int x = (int) (Math.random() * (GameConstant.GAME_WINDOW_LEFT_WIDTH - GameConstant.Enemy_WIDTH));
-         return x;
+        return x;
     }
 
     /**
@@ -332,7 +419,7 @@ public class PlaneController {
                                 rightJPanel.setIntermediateEnemyNums(rightJPanel.getIntermediateEnemyNums() - 1);// 敌机lv2数量
                             }
                         } else {
-                            BoomUtils explosion = new BoomUtils(enemyPlane.getFlyX(), enemyPlane.getFlyY(), GameConstant.ZIDANTO_ENEMYPLANE);
+                            BoomUtils explosion = new BoomUtils(enemyPlane.getFlyX(), enemyPlane.getFlyY(), enemyPlane.getFlyW(), enemyPlane.getFlyH(),GameConstant.ZIDANTO_ENEMYPLANE);
                             boomObjectList.add(explosion);
                         }
                         myBulletIterator.remove(); // 移除我方飞机的子弹
@@ -368,24 +455,49 @@ public class PlaneController {
 
                         // 处理敌机被击中的逻辑
                         if (currentHealth - 1 <= 0) {
-                            // System.out.println("敌机已被击毁");
                             // 击毁效果
                             MusicUtils.startBossOverMusicThread();
-                            BoomUtils explosion2 = new BoomUtils(boosPlane.getFlyX(), boosPlane.getFlyY(), GameConstant.ENEMYPLANE_OVER);
+                            BoomUtils explosion2 = new BoomUtils(boosPlane.getFlyX(), boosPlane.getFlyY(), boosPlane.getFlyW()/2, boosPlane.getFlyH(),GameConstant.ENEMYPLANE_OVER);
                             boomObjectList.add(explosion2);
                             enemyIterator.remove();
                             rightJPanel.setScore(rightJPanel.getScore() + boosPlane.getHealth() * 100);
-                            rightJPanel.setBossEnemyNums(rightJPanel.getBossEnemyNums()-1);
-                            // todo 临时切换第二关 后续更改
-                            GameConfig.initLv2();
-                            GameConfig.setBackImage(ImageUtils.getBgImage2());
-                            startGame();
-                            System.out.println("切换了第二关");
+                            rightJPanel.setBossEnemyNums(rightJPanel.getBossEnemyNums() - 1);
+
+                            // 切换关卡
+                            flyObjTime.pauseTimer();
+                            backGroundTime.pauseTimer();
+                            if (GameConfig.getGameLv() == 1) {
+                                DialogUtils.showMessageDialog(ui.getGameJFrame(), "当前第1关结束！\n即将进入下一关！", "通关提示");
+                                GameConfig.initLv2();
+                                GameConfig.setBackImage(ImageUtils.getBgImage2());
+                                startGameLv();
+                            } else if (GameConfig.getGameLv() == 2) {
+                                DialogUtils.showMessageDialog("当前第2关结束！\n即将进入下一关！", "通关提示");
+                                GameConfig.initLv3();
+                                GameConfig.setBackImage(ImageUtils.getBgImage2());
+                                startGameLv();
+                            } else if (GameConfig.getGameLv() == 3) {
+                                Object[] options = new Object[]{"返回大厅", "查看最高分"};
+                                int gameController = DialogUtils.showOptionDialog("恭喜您通关啦！！！\n您的分数为："+rightJPanel.getScore(), "通关提示", options);
+                                if (gameController == 0) {
+                                    GameConfig.setGameState(0);
+                                    break;
+                                } else if (gameController == 1) {
+                                    UserService userService = new UserService();
+                                    List<Player> top3Player = userService.getTop3();
+                                    DialogUtils.showTop3Dialog(top3Player);
+
+                                    break;
+                                }
+                                victoryGame();
+                            }
+                            flyObjTime.startTimer();
+                            backGroundTime.startTimer();
                         } else {
-                            BoomUtils explosion = new BoomUtils(boosPlane.getFlyX(), boosPlane.getFlyY(), GameConstant.ZIDANTO_ENEMYPLANE);
+                            BoomUtils explosion = new BoomUtils(boosPlane.getFlyX(), boosPlane.getFlyY(),boosPlane.getFlyW()/2, boosPlane.getFlyH(), GameConstant.ZIDANTO_ENEMYPLANE);
                             boomObjectList.add(explosion);
                         }
-                        myBulletIterator.remove(); // 移除我方飞机的子弹
+                        cleanList.add(myBullet);
                         return true;
                     }
                 }
@@ -414,12 +526,13 @@ public class PlaneController {
                 heroPlane.setHealth(currentHealth - 1);
                 rightJPanel.setHealth(currentHealth);
                 if (currentHealth - 1 <= 0) {
-                    System.out.println("游戏结束！");
+
                     // 爆炸效果
                     MusicUtils.startGameOverMusicThread();
                     BoomUtils explosion = new BoomUtils(heroPlane.getFlyX(), heroPlane.getFlyY(), GameConstant.HEREOPLANE_OVER);
                     boomObjectList.add(explosion);
-                    // todo 游戏结束
+                    DialogUtils.showMessageDialog("游戏结束！您的分数为："+rightJPanel.getScore(),"游戏结束");
+                    endGame();
                 } else {
                     // 爆炸效果
                     BoomUtils explosion = new BoomUtils(heroPlane.getFlyX(), heroPlane.getFlyY(), GameConstant.ZIDANTO_HEREOPLANE);
@@ -517,6 +630,29 @@ public class PlaneController {
         return collisionOccurred;
     }
 
+    /**
+     * 获取游戏控制方式
+     *
+     * @return int
+     */
+    public int getGameController() {
+        return GameConfig.getGameController();
+    }
+
+    /**
+     * 检查敌人越过防线
+     */
+    public void checkEnemyOverPassY() {
+        Iterator<FlyingObj> iterator = flyingObjectList.iterator();
+        while (iterator.hasNext()) {
+            FlyingObj flyingObj = iterator.next();
+            if (flyingObj instanceof EnemyPlane && flyingObj.getFlyY() > GameConstant.GAME_WINDOW_LEFT_HEIGHT) {
+                rightJPanel.setEnemyPassedNums(rightJPanel.getEnemyPassedNums() + 1);
+                cleanList.add(flyingObj);
+                iterator.remove();
+            }
+        }
+    }
 
     /////////////////////////////////////get、set
     public List<FlyingObj> getboomObjectList() {
@@ -636,7 +772,13 @@ public class PlaneController {
         return rightJPanel;
     }
 
+    public List<Bullet> getBossBulletList() {
+        return bossBulletList;
+    }
+
     public void setRightJPanel(RightJPanel rightJPanel) {
         this.rightJPanel = rightJPanel;
     }
+
+
 }
