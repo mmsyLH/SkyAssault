@@ -26,6 +26,7 @@ public class GameConfig {
     private static int enemySpeed;// 英雄机飞行速度
     private static int heroHealth;// 英雄机最高生命值
     private static int EnemyHealth;// 敌机最高生命值
+    private static int bossHealth;// 敌机最高生命值
     private static Image bossImg;// boss图图片
     private static Image heroImg;// 英雄机图片
     private static Image enemyImgLv1;// 初级敌机图片
@@ -69,9 +70,9 @@ public class GameConfig {
     }
 
     public static void initLv1() {
-        // todo 设置boss血量
         initDefault();
         // 数值类
+        bossHealth=10;
         enemyPlanes=5;
         gameLv = 1;
         heroSpeed = 10;
@@ -90,11 +91,12 @@ public class GameConfig {
 
     public static void initLv2() {
         initDefault();
+        bossHealth=15;
         gameLv = 2;
         heroSpeed = 10;
         heroHealth = 3;
         EnemyHealth = 3;
-        bossImg = ImageUtils.getBossPlaneImage1();
+        bossImg = ImageUtils.getBossPlaneImage2();
         enemyImgLv1 = ImageUtils.getEnemyPlaneImage2Lv1();
         enemyImgLv2 = ImageUtils.getEnemyPlaneImage2Lv2();
         heroImg = ImageUtils.getMyPlaneImage1();
@@ -103,8 +105,16 @@ public class GameConfig {
 
     public static void initLv3() {
         initDefault();
+        bossHealth=20;
         gameLv = 3;
-
+        heroSpeed = 10;
+        heroHealth = 3;
+        EnemyHealth = 5;
+        bossImg = ImageUtils.getBossPlaneImage3();
+        enemyImgLv1 = ImageUtils.getEnemyPlaneImage2Lv1();
+        enemyImgLv2 = ImageUtils.getEnemyPlaneImage2Lv2();
+        heroImg = ImageUtils.getMyPlaneImage1();
+        backImage = ImageUtils.getBgImage3();
     }
 
     public static GameConfig instance() {
@@ -331,6 +341,14 @@ public class GameConfig {
             PlaneController.getInstance().getUi().getGameJFrame().getGameJPanel().getMyKeyListener().setKeyboardControlEnabled(true);
             PlaneController.getInstance().getUi().getGameJFrame().getGameJPanel().getMyMouseMotionListener().setMouseControlEnabled(false);
         }
+    }
+
+    public static int getBossHealth() {
+        return bossHealth;
+    }
+
+    public static void setBossHealth(int bossHealth) {
+        GameConfig.bossHealth = bossHealth;
     }
 
     /**

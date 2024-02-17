@@ -14,6 +14,9 @@ import java.awt.*;
 public class ImageUtils {
     public static Image bgImage;// 背景
     public static Image bgImage2;// 背景2
+    public static Image bgImage3;// 背景3
+
+
     public static Image zhuTi;// 背景2
     public static Image bgStartImage;// 游戏就绪背景
     public static Image bgPauseImage;// 游戏就绪背景
@@ -50,6 +53,7 @@ public class ImageUtils {
         // 初始化背景图像
         bgImage = new ImageIcon(GameConstant.GAME_BG1).getImage();
         bgImage2 = new ImageIcon(GameConstant.GAME_BG2).getImage();
+        bgImage3 = new ImageIcon(GameConstant.GAME_BG3).getImage();
         bgPauseImage = new ImageIcon(GameConstant.GAME_BG_PAUSE).getImage();
         bgStartImage = new ImageIcon(GameConstant.GAME_BG_START).getImage();
         bgVictoryImage = new ImageIcon(GameConstant.BG_VICTORY_IMAGE).getImage();
@@ -298,5 +302,13 @@ public class ImageUtils {
 
     public static Image getBgVictoryImage() {
         return bgVictoryImage;
+    }
+
+    public static Image getBgImage3() {
+        return bgImage3;
+    }
+
+    public static void setBgImage3(Image bgImage3) {
+        ImageUtils.bgImage3 = bgImage3;
     }
 }

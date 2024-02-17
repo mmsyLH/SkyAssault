@@ -52,7 +52,7 @@ public class GameJFrame extends JFrame {
             }
         });
         this.setIconImage(ImageUtils.getZhuTi());
-        setVisible(true);
+        setVisible(false);
     }
 
     private void showExitConfirmationDialog() {

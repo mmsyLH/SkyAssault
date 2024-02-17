@@ -25,6 +25,10 @@ public interface GameConstant {
      */
     String GAME_BG2 = "images/bg/bg_2.jpg";
     /**
+     * 游戏bg2
+     */
+    String GAME_BG3 = "images/bg/bg_3.jpg";
+    /**
      * 游戏暂停
      */
     String GAME_BG_PAUSE = "images/bg/pause.png";

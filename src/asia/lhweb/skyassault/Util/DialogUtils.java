@@ -184,8 +184,6 @@ public class DialogUtils {
                     int levelNumber = Integer.parseInt(selectedLevel.substring(1, 2));
                     GameConfig.initLv(levelNumber);
                 }
-
-                PlaneController.getInstance().init();
                 PlaneController.getInstance().startGame();
                 jd.dispose();
             }
