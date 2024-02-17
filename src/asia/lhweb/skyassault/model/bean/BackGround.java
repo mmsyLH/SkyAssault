@@ -43,4 +43,8 @@ public class BackGround {
     public void setBackY(int backY) {
         this.backY = backY;
     }
+
+    public void setBackImage(Image backImage) {
+        this.backImage = backImage;
+    }
 }

@@ -1,6 +1,7 @@
 package asia.lhweb.skyassault.View;
 
 import asia.lhweb.skyassault.Util.DataUtils;
+import asia.lhweb.skyassault.config.GameConfig;
 import asia.lhweb.skyassault.controller.Listener.MyKeyListener;
 import asia.lhweb.skyassault.controller.Listener.MyPlaneListener;
 import asia.lhweb.skyassault.controller.Listener.MyPlaneMotionListener;
@@ -28,10 +29,10 @@ public class GameJPanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        setFocusable(true);//获取焦点
+        setFocusable(true);// 获取焦点
+
         planeController.getBackGround1().drawBackGround(g);
         planeController.getBackGround2().drawBackGround(g);
-
         (planeController.getPlayer().getHeroPlaneList()).get(0).drawFlyer(g);
         (planeController.getPlayer().getHeroPlaneList()).get(1).drawFlyer(g);
 

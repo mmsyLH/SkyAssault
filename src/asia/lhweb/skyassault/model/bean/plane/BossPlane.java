@@ -32,7 +32,7 @@ public class BossPlane extends Plane {
         flySpeed = GameConstant.FLY_BOSS_SPEED;
         init(10, Color.red);
         flyType = enemyPlaneType;
-        flyName = "敌机";
+        flyName = "BOSS";
         flyImage = GameConfig.getBossImg();
     }
 
@@ -48,7 +48,7 @@ public class BossPlane extends Plane {
             movingRight = !movingRight;
         }
         if (flyY <= flyH/4){
-            flyY += flySpeed;
+            flyY += 3*flySpeed;
         }
 
     }

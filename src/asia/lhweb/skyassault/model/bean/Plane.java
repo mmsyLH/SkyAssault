@@ -1,6 +1,8 @@
 package asia.lhweb.skyassault.model.bean;
 
-import asia.lhweb.skyassault.Util.ImageUtils;
+
+
+import asia.lhweb.skyassault.model.bean.fly.FlyingObj;
 
 import java.awt.*;
 

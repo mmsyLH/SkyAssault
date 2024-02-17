@@ -1,9 +1,11 @@
 package asia.lhweb.skyassault.View;
 
 
+import asia.lhweb.skyassault.Util.ImageUtils;
 import asia.lhweb.skyassault.controller.PlaneController;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class UI extends JFrame {
 
@@ -18,10 +20,10 @@ public class UI extends JFrame {
         gameJFrame = new GameJFrame(this.planeController);
         System.out.println(planeController);
         registerFrame = new RegisterFrame(this.planeController);
+
     }
     public void endGame(){
-        //关闭窗口会自动结束进程
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        System.exit(0);
     }
     public LoginJFrame getLoginJFrame() {
         return loginJFrame;

@@ -14,6 +14,9 @@ import java.awt.*;
 public class ImageUtils {
     public static Image bgImage;// 背景
     public static Image bgImage2;// 背景2
+    public static Image zhuTi;// 背景2
+    public static Image bgStartImage;// 游戏就绪背景
+    public static Image bgPauseImage;// 游戏就绪背景
     public static Image planeImage1;// 飞机图像 开火
     public static Image planeImage2;// 飞机图像 不开火
     public static Image heroBullet;//子弹1
@@ -43,6 +46,10 @@ public class ImageUtils {
         // 初始化背景图像
         bgImage = new ImageIcon(GameConstant.GAME_BG1).getImage();
         bgImage2 = new ImageIcon(GameConstant.GAME_BG2).getImage();
+        bgPauseImage = new ImageIcon(GameConstant.GAME_BG_PAUSE).getImage();
+        bgStartImage = new ImageIcon(GameConstant.GAME_BG_START).getImage();
+        zhuTi = new ImageIcon(GameConstant.ZHU_TI).getImage();
+
         // 初始化飞机图像
         planeImage1 = new ImageIcon(GameConstant.HERO1).getImage();
         planeImage2 = new ImageIcon(GameConstant.HERO1_0).getImage();
@@ -247,5 +254,25 @@ public class ImageUtils {
 
     public static Image getEnemyBullet() {
         return enemyBullet;
+    }
+
+    public static Image getBgStartImage() {
+        return bgStartImage;
+    }
+
+    public static void setBgStartImage(Image bgStartImage) {
+        ImageUtils.bgStartImage = bgStartImage;
+    }
+
+    public static Image getBgPauseImage() {
+        return bgPauseImage;
+    }
+
+    public static void setBgPauseImage(Image bgPauseImage) {
+        ImageUtils.bgPauseImage = bgPauseImage;
+    }
+
+    public static Image getZhuTi() {
+        return zhuTi;
     }
 }

@@ -15,10 +15,18 @@ public class EnemyPlane extends Plane {
 
     private boolean movingRight = true; // 标记Z字形移动方向
 
+    /**
+     * 敌人飞机
+     */
     public EnemyPlane() {//默认为初级敌机
         this( GameConstant.Enemy_TYPE1);
     }
 
+    /**
+     * 敌人飞机
+     *
+     * @param enemyPlaneType 敌机类型
+     */
     public EnemyPlane(int enemyPlaneType) {
         this(GameConstant.Enemy_WIDTH, GameConstant.Enemy_HEIGHT, enemyPlaneType);
     }

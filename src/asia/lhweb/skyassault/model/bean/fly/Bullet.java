@@ -39,7 +39,7 @@ public class Bullet extends FlyingObj {
 
     @Override
     public void drawFlyer(Graphics g) {
-        g.drawImage(flyImage, flyX, flyY, flyH, flyW, null);
+        g.drawImage(flyImage, flyX, flyY, flyW, flyH, null);
     }
 
     @Override
@@ -59,7 +59,6 @@ public class Bullet extends FlyingObj {
                 flyY += GameConstant.FLY_DEFAULT_SPEED + flySpeed;
             }
         }
-
     }
 
 

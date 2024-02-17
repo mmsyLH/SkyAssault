@@ -7,6 +7,10 @@ import sun.net.www.content.audio.wav;
  */
 public interface GameConstant {
     String SALT="lh";
+    /**
+     * 主题
+     */
+    String ZHU_TI="images/bg/blue.png";
     /////////////////////////////////////////////////////////////游戏界面参数
     /**
      * 游戏名称
@@ -20,6 +24,11 @@ public interface GameConstant {
      * 游戏bg2
      */
     String GAME_BG2 = "images/bg/bg_2.jpg";
+    /**
+     * 游戏暂停
+     */
+    String GAME_BG_PAUSE = "images/bg/pause.png";
+    String GAME_BG_START = "images/bg/start.png";
     /**
      * 游戏bgr
      */
@@ -173,11 +182,11 @@ public interface GameConstant {
     /**
      * 老板宽度
      */
-    int BOSS_WIDTH =400;
+    int BOSS_WIDTH =250;
     /**
      * 老板高度
      */
-    int BOSS_HEIGHT =120;
+    int BOSS_HEIGHT =80;
     /**
      * 敌机类型1-初始敌机
      */
@@ -211,11 +220,11 @@ public interface GameConstant {
     /**
      * 子弹宽度
      */
-    int ZIDAN_W = 10;
+    int ZIDAN_W = 8;
     /**
      * 子弹高度
      */
-    int ZIDAN_H = 10;
+    int ZIDAN_H = 25;
 
     int ZIDAN_SPEED = 7;
     /**

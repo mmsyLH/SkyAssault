@@ -2,7 +2,9 @@ package asia.lhweb.skyassault.controller.time;
 
 import asia.lhweb.skyassault.Util.MusicUtils;
 import asia.lhweb.skyassault.View.RightJPanel;
+import asia.lhweb.skyassault.config.GameConfig;
 import asia.lhweb.skyassault.controller.PlaneController;
+import asia.lhweb.skyassault.model.bean.BackGround;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,22 +18,30 @@ import java.awt.event.ActionListener;
  * @date 2024/01/25
  */
 public class BackGroundTime {
-    private int delay;//刷新间隔
-    private Timer bgTimer;;
+    private int delay;// 刷新间隔
+    private Timer bgTimer;
+    ;
     private PlaneController planeController;
+
     public BackGroundTime(PlaneController planeController) {
-        this.planeController=planeController;
-        this.delay=17;//  1000/60=17
-        this.bgTimer=new Timer(delay,actionListener);
+        this.planeController = planeController;
+        this.delay = 17;//  1000/60=17
+        this.bgTimer = new Timer(delay, actionListener);
     }
+
     public ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            planeController.getBackGround1().backGroundMove();
-            planeController.getBackGround2().backGroundMove();
+            BackGround backGround1 = planeController.getBackGround1();
+            backGround1.setBackImage(GameConfig.getBackImage());
+            backGround1.backGroundMove();
+            BackGround backGround2 = planeController.getBackGround2();
+            backGround2.setBackImage(GameConfig.getBackImage());
+            backGround2.backGroundMove();
             planeController.getUi().getGameJFrame().repaint();
         }
     };
+
     public void startTimer() {
         bgTimer.start();
     }
@@ -47,6 +57,7 @@ public class BackGroundTime {
     public void resumeTimer() {
         bgTimer.start();
     }
+
     public int getDelay() {
         return delay;
     }

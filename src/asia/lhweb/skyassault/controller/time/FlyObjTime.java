@@ -62,7 +62,6 @@ public class FlyObjTime {
 
             // 检查我方飞机是否被击中
             if (planeController.checkMyPlaneHit()) {
-                // todo 播放被击中的音效
                 MusicUtils.startEnemyMusicThread();
             }
 
@@ -86,7 +85,7 @@ public class FlyObjTime {
 
             // 检查我方子弹与地方子弹的碰撞
             if (planeController.checkMyBulletHitEnemyBullet()) {
-                // todo 播放碰撞奖励的音效
+                // todo 播放碰撞子弹的音效
 
             }
 
